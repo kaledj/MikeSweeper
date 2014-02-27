@@ -9,8 +9,9 @@ public class MikeSweeper
     
     public MikeSweeper(int size)
     {
-         this.size = size;
-         makeBoard(size);
+        setSize(size);
+        setNumTouching(0);
+        makeBoard(getSize());
     }
 
     /**
@@ -20,8 +21,23 @@ public class MikeSweeper
     public void makeBoard(int size)
     {
         board = new int[size][size];
+        setNumTouching(0);
         fillMines(size);
         fillTouchMines(size);
+    }
+    /**
+     * sets size.
+     */
+    public void setSize(int size)
+    {
+        this.size = size;
+    }
+    /**
+     * returns size.
+     */
+    public int getSize()
+    {
+        return size;
     }
     /**
      * sets numTouching.
@@ -64,6 +80,7 @@ public class MikeSweeper
      */
     public void fillTouchMines(int size)
     {
+        setNumTouching(0);
         fillCorners(size);
         fillSides(size);
         fillRest(size);
@@ -77,47 +94,47 @@ public class MikeSweeper
         if (board[0][0] != 10) //top-left corner
         {
             if (board[0][1] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[1][0] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[1][1] == 10)
-                numTouching++;
-            board[0][0] = numTouching;
-            setNumTouching(0);
+                setNumTouching(getNumTouching() + 1);
+            board[0][0] = getNumTouching();
         }
+        setNumTouching(0);
         if (board[0][size - 1] != 10) //top-right corner
         {
             if (board[0][size - 2] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[1][size - 2] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[1][size - 1] == 10)
-                numTouching++;
-            board[0][size - 1] = numTouching;
-            setNumTouching(0);
+                setNumTouching(getNumTouching() + 1);
+            board[0][size - 1] = getNumTouching();
         }
+        setNumTouching(0);
         if (board[size - 1][0] != 10) //bottom-left corner
         {
             if (board[size - 2][0] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[size - 2][1] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[size - 1][1] == 10)
-                numTouching++;
-            board[0][size - 1] = numTouching;
-            setNumTouching(0);
+                setNumTouching(getNumTouching() + 1);
+            board[0][size - 1] = getNumTouching();
         }
+        setNumTouching(0);
         if (board[size - 1][size - 1] != 10) //bottom-right corner
         {
             if (board[size - 2][size - 1] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[size - 2][size - 2] == 10)
-                numTouching++;
+                setNumTouching(getNumTouching() + 1);
             if (board[size - 1][size - 2] == 10)
-                numTouching++;
-            board[0][size - 1] = numTouching;
-            setNumTouching(0);
+                setNumTouching(getNumTouching() + 1);
+            board[0][size - 1] = getNumTouching();
         }
+        setNumTouching(0);
     }
     /**
      * fills in each side.
@@ -131,17 +148,19 @@ public class MikeSweeper
             if (board[0][j] != 10)
             {
                 if (board[0][j - 1] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 if (board[0][j + 1] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 for (int k = j - 1; k <= j + 1; k++)
                 {
                     if (board[1][k] == 10)
                     {
-                        numTouching++;
+                        setNumTouching(getNumTouching() + 1);
                     }
                 }
             }
+            board[0][j] = getNumTouching();
+            setNumTouching(0);
         }
         setNumTouching(0);
         for (int j = 1; j < size - 1; j++) //bottom row
@@ -149,17 +168,19 @@ public class MikeSweeper
             if (board[size - 1][j] != 10)
             {
                 if (board[size - 1][j - 1] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 if (board[size - 1][j + 1] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 for (int k = j - 1; k <= j + 1; k++)
                 {
                     if (board[size - 2][k] == 10)
                     {
-                        numTouching++;
+                        setNumTouching(getNumTouching() + 1);
                     }
                 }
             }
+            board[size - 1][j] = getNumTouching();
+            setNumTouching(0);
         }
         setNumTouching(0);
         for (int i = 1; i < size - 1; i++) //left side
@@ -167,17 +188,19 @@ public class MikeSweeper
             if (board[i][0] != 10)
             {
                 if (board[i - 1][0] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 if (board[i + 1][0] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 for (int k = i - 1; k <= i + 1; k++)
                 {
                     if (board[k][1] == 10)
                     {
-                        numTouching++;
+                        setNumTouching(getNumTouching() + 1);
                     }
                 }
             }
+            board[i][0] = getNumTouching();
+            setNumTouching(0);
         }
         setNumTouching(0);
         for (int i = 1; i < size - 1; i++) //right side
@@ -185,18 +208,21 @@ public class MikeSweeper
             if (board[i][size - 1] != 10)
             {
                 if (board[i - 1][size - 1] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 if (board[i + 1][size - 1] == 10)
-                    numTouching++;
+                    setNumTouching(getNumTouching() + 1);
                 for (int k = i - 1; k <= i + 1; k++)
                 {
                     if (board[k][size - 2] == 10)
                     {
-                        numTouching++;
+                        setNumTouching(getNumTouching() + 1);
                     }
                 }
             }
+            board[i][size - 1] = getNumTouching();
+            setNumTouching(0);
         }
+        setNumTouching(0);
     }
     /**
      * fills the rest of the board.
@@ -204,20 +230,25 @@ public class MikeSweeper
      */
     public void fillRest(int size)
     {
+        setNumTouching(0);
         for (int i = 1; i <= size - 2; i++)
         {
             for (int j = 1; j <= size - 2; j++)
             {
+                setNumTouching(0);
                 if (board[i][j] != 10)
                 {
-                    setNumTouching(0);
+                    setNumTouching(getNumTouching() + 1);
                     checkAbove(i, j);
                     checkBelow(i, j);
                     checkSides(i, j);
+                    board[i][j] = getNumTouching();
                 }
+                setNumTouching(0);
             }
+            setNumTouching(0);
         }
-        
+        setNumTouching(0);
     }
     /**
      * checks the three spots above.
@@ -260,14 +291,13 @@ public class MikeSweeper
     public String toString()
     {
         String str = "";
-        System.out.println("works");
-        System.out.println("Size: " + size);
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
-               
-                str += board[i][j] + " ";
+                String temp = board[i][j] + "";
+                
+                str += String.format("%3s", temp);
             }
             str += "\n";
         }
