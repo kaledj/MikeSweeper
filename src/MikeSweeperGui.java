@@ -1,11 +1,15 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import javax.swing.JButton;
 
 
 public class MikeSweeperGui {
 
-    private JFrame frame;
+    private JFrame frmMikesweeper;
 
     /**
      * Launch the application.
@@ -15,7 +19,7 @@ public class MikeSweeperGui {
             public void run() {
                 try {
                     MikeSweeperGui window = new MikeSweeperGui();
-                    window.frame.setVisible(true);
+                    window.frmMikesweeper.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -34,9 +38,11 @@ public class MikeSweeperGui {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frame = new JFrame();
-        frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmMikesweeper = new JFrame();
+        frmMikesweeper.setTitle("MikeSweeper");
+        frmMikesweeper.setBounds(100, 100, 497, 389);
+        frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmMikesweeper.getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
     }
 
 }
