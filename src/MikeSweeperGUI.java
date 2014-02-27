@@ -1,10 +1,9 @@
 
-public class MikeSweeperGUI
+public class MikeSweeperGUI 
 {
 
-    public MikeSweeperGUI() extends QMainWindow
+    public MikeSweeperGUI() 
     {
-        // TODO Auto-generated constructor stub
+        
     }
-
 }
