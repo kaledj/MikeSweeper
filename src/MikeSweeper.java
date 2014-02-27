@@ -9,7 +9,8 @@ public class MikeSweeper
     
     public MikeSweeper(int size)
     {
-        makeBoard(size);
+         this.size = size;
+         makeBoard(size);
     }
 
     /**
@@ -259,11 +260,13 @@ public class MikeSweeper
     public String toString()
     {
         String str = "";
-        System.out.print("works");
+        System.out.println("works");
+        System.out.println("Size: " + size);
         for (int i = 0; i < size; i++)
         {
-            for (int j = 0; i < size; j++)
+            for (int j = 0; j < size; j++)
             {
+               
                 str += board[i][j] + " ";
             }
             str += "\n";
