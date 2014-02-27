@@ -4,7 +4,7 @@ public class MikeSweeper
 {
     private int size;
     private int[][] board;
-    private final int MAX_MINES = 20; //amount may change, TODO
+    private final int MAX_MINES = 20; //amount may change
     private int numTouching;
     
     public MikeSweeper(int size)
@@ -259,20 +259,21 @@ public class MikeSweeper
     public String toString()
     {
         String str = "";
+        System.out.print("works");
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; i < size; j++)
             {
                 str += board[i][j] + " ";
             }
-            System.out.println("");
+            str += "\n";
         }
         return str;
     }
     
     public static void main(String[] args)
     {
-        MikeSweeper test = new MikeSweeper(5);
-        test.toString();
+        MikeSweeper test = new MikeSweeper(10);
+        System.out.println(test);
     }
 }
