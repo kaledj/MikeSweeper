@@ -5,7 +5,7 @@ public class MikeSweeper
     public MikeSweeper()
     {
         // Mike
-    	// lol
+    	// lole
         // TODO Auto-generated constructor stub
         //test
     }
