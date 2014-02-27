@@ -129,9 +129,9 @@ public class MikeSweeper
         {
             if (board[0][j] != 10)
             {
-                if (board[0][j - 1])
+                if (board[0][j - 1] == 10)
                     numTouching++;
-                if (board[0][j + 1])
+                if (board[0][j + 1] == 10)
                     numTouching++;
                 for (int k = j - 1; k <= j + 1; k++)
                 {
@@ -147,9 +147,9 @@ public class MikeSweeper
         {
             if (board[size - 1][j] != 10)
             {
-                if (board[size - 1][j - 1])
+                if (board[size - 1][j - 1] == 10)
                     numTouching++;
-                if (board[size - 1][j + 1])
+                if (board[size - 1][j + 1] == 10)
                     numTouching++;
                 for (int k = j - 1; k <= j + 1; k++)
                 {
@@ -165,9 +165,9 @@ public class MikeSweeper
         {
             if (board[i][0] != 10)
             {
-                if (board[i - 1][0])
+                if (board[i - 1][0] == 10)
                     numTouching++;
-                if (board[i + 1][0])
+                if (board[i + 1][0] == 10)
                     numTouching++;
                 for (int k = i - 1; k <= i + 1; k++)
                 {
@@ -183,9 +183,9 @@ public class MikeSweeper
         {
             if (board[i][size - 1] != 10)
             {
-                if (board[i - 1][size - 1])
+                if (board[i - 1][size - 1] == 10)
                     numTouching++;
-                if (board[i + 1][size - 1])
+                if (board[i + 1][size - 1] == 10)
                     numTouching++;
                 for (int k = i - 1; k <= i + 1; k++)
                 {
@@ -267,7 +267,7 @@ public class MikeSweeper
             }
             System.out.println("");
         }
-        System.out.println(str);
+        return str;
     }
     
     public static void main(String[] args)
