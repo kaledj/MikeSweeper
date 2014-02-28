@@ -240,7 +240,7 @@ public class MikeSweeper
                 setNumTouching(0);
                 if (board[i][j] != 10)
                 {
-                    setNumTouching(getNumTouching() + 1);
+                    
                     checkAbove(i, j);
                     checkBelow(i, j);
                     checkSides(i, j);
