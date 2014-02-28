@@ -1,7 +1,6 @@
 
 public class MikeSweeperController
 {
-    
     private MikeSweeper model;
     private MikeSweeperGui view;
 
@@ -10,7 +9,4 @@ public class MikeSweeperController
         this.view = view;
         this.model = model;
     }
-    
-    
-
 }

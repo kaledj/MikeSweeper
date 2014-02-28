@@ -8,15 +8,16 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 
 
 public class MikeSweeperGui implements ActionListener
 {
     Icon icon = new ImageIcon("resources/10x10.png");
     Icon iconEx = new ImageIcon("resources/10x10ex.png");
+    Icon quest = new ImageIcon("resources/quest.png");
+    Icon smile = new ImageIcon("resources/smile.png");
+    private MikeSweeper model;
 
     private JFrame frmMikesweeper;
 
@@ -31,7 +32,7 @@ public class MikeSweeperGui implements ActionListener
             {
                 try
                 {
-                    MikeSweeperGui window = new MikeSweeperGui();
+                	MikeSweeperGui window = new MikeSweeperGui();
                     window.frmMikesweeper.setVisible(true);
                 }
                 catch (Exception e)
@@ -62,21 +63,48 @@ public class MikeSweeperGui implements ActionListener
         frmMikesweeper.getContentPane().setLayout(new GridLayout(10, 10, 0, 0));
         
 
-
-        
-        for(int i = 0; i < 10; i++) {
-            for(int j = 0; j < 10; j++) {
-            	JButton ij = new JButton(icon);
+        //Makes board, and sets buttons to things and stuff.
+        model = new MikeSweeper(10);
+        int[][] tempArray = model.getBoard();
+        for(int i = 0; i < tempArray.length; i++) {
+            for(int j = 0; j < tempArray[i].length; j++) {
+            	//This is a dumb way to name the buttons
+            	if (tempArray[i][j] == 10)
+            	{
+            		JButton ij = new JButton(icon);
+                	ij.addActionListener(this);
+                    frmMikesweeper.getContentPane().add(new JPanel().add(ij));
+            	}
+            	else
+            	{
+            	JButton ij = new JButton(quest);
             	ij.addActionListener(this);
                 frmMikesweeper.getContentPane().add(new JPanel().add(ij));
+            	}
+
             }
         }
     }
 
+    
 	@Override
 	public void actionPerformed(ActionEvent e) {
-        	((AbstractButton) e.getSource()).setIcon(iconEx);
+        	findButton(e.getSource());
 		
 	}
+	
+	//For later
+    public void findButton(Object source)
+    {
+    	if (((AbstractButton) source).getIcon().equals(icon))
+    			{
+    	((AbstractButton) source).setIcon(iconEx);
+    			}
+    	else
+    	{
+    		((JButton) source).setIcon(smile);
+    	}
+    	
+    }
 	
 }

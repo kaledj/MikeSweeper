@@ -25,6 +25,10 @@ public class MikeSweeper
         fillMines(size);
         fillTouchMines(size);
     }
+    public int[][] getBoard()
+    {
+    	return board;
+    }
     /**
      * sets size.
      */
