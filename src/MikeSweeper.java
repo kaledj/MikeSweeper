@@ -63,7 +63,7 @@ public class MikeSweeper
         int ranX;
         int ranY;
         int numMines = 0;
-        while (numMines <= MAX_MINES)
+        while (numMines < MAX_MINES)
         {
             ranX = random.nextInt(size);
             ranY = random.nextInt(size);
@@ -82,7 +82,9 @@ public class MikeSweeper
     {
         setNumTouching(0);
         fillCorners(size);
+        setNumTouching(0);
         fillSides(size);
+        setNumTouching(0);
         fillRest(size);
     }
     /**
@@ -121,7 +123,7 @@ public class MikeSweeper
                 setNumTouching(getNumTouching() + 1);
             if (board[size - 1][1] == 10)
                 setNumTouching(getNumTouching() + 1);
-            board[0][size - 1] = getNumTouching();
+            board[size - 1][0] = getNumTouching();
         }
         setNumTouching(0);
         if (board[size - 1][size - 1] != 10) //bottom-right corner
@@ -132,7 +134,7 @@ public class MikeSweeper
                 setNumTouching(getNumTouching() + 1);
             if (board[size - 1][size - 2] == 10)
                 setNumTouching(getNumTouching() + 1);
-            board[0][size - 1] = getNumTouching();
+            board[size - 1][size - 1] = getNumTouching();
         }
         setNumTouching(0);
     }
@@ -158,8 +160,8 @@ public class MikeSweeper
                         setNumTouching(getNumTouching() + 1);
                     }
                 }
+                board[0][j] = getNumTouching();
             }
-            board[0][j] = getNumTouching();
             setNumTouching(0);
         }
         setNumTouching(0);
@@ -178,8 +180,8 @@ public class MikeSweeper
                         setNumTouching(getNumTouching() + 1);
                     }
                 }
+                board[size - 1][j] = getNumTouching();
             }
-            board[size - 1][j] = getNumTouching();
             setNumTouching(0);
         }
         setNumTouching(0);
@@ -198,8 +200,8 @@ public class MikeSweeper
                         setNumTouching(getNumTouching() + 1);
                     }
                 }
+                board[i][0] = getNumTouching();
             }
-            board[i][0] = getNumTouching();
             setNumTouching(0);
         }
         setNumTouching(0);
@@ -218,8 +220,8 @@ public class MikeSweeper
                         setNumTouching(getNumTouching() + 1);
                     }
                 }
+                board[i][size - 1] = getNumTouching();
             }
-            board[i][size - 1] = getNumTouching();
             setNumTouching(0);
         }
         setNumTouching(0);
