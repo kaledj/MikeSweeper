@@ -3,6 +3,7 @@ import java.awt.GridLayout;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,15 +51,15 @@ public class MikeSweeperGui
     {
         frmMikesweeper = new JFrame();
         frmMikesweeper.setTitle("MikeSweeper");
-        frmMikesweeper.setBounds(100, 100, 450, 300);
+        frmMikesweeper.setBounds(100, 100, 580, 600);
         frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmMikesweeper.getContentPane().setLayout(new GridLayout(10, 10, 0, 0));
         
-        Icon icon = new ImageIcon("resources/MikeSweeper.png");
+        Icon icon = new ImageIcon("resources/10x10.png");
         
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
-                frmMikesweeper.getContentPane().add(new JPanel().add(new JLabel(icon)));
+                frmMikesweeper.getContentPane().add(new JPanel().add(new JButton(icon)));
             }
         }
     }
