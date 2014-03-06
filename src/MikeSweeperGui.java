@@ -19,6 +19,7 @@ public class MikeSweeperGui implements ActionListener {
     public static int DIM = 10;
     
     Icon icon = new ImageIcon("resources/10x10.png");
+    Icon blankIcon = new ImageIcon("resources/blank.png");
 	Icon iconEx = new ImageIcon("resources/10x10ex.png");
 	Icon quest = new ImageIcon("resources/quest.png");
 	Icon smile = new ImageIcon("resources/smile.png");
@@ -58,7 +59,13 @@ public class MikeSweeperGui implements ActionListener {
 	    for(int i = 0; i < DIM; i++) {
 	        for(int j = 0; j < DIM; j++) {
 	            int val = board[i][j];
-	            //
+	            if(val == 10) {
+	                buttons[i][j].setIcon(iconEx);
+	            } else if(val == 0){
+                    buttons[i][j].setIcon(icon);
+                } else {
+	                buttons[i][j].setIcon(numberIcons[val]);
+	            }
 	        }
 	    }
 	}
@@ -109,7 +116,7 @@ public class MikeSweeperGui implements ActionListener {
     private void createIconsArray()
     {
         for(int i = 0; i < numberIcons.length; i++) {
-            numberIcons[i] = new ImageIcon("resources/");
+            numberIcons[i] = new ImageIcon("resources/" + i + ".png");
         }
         
     }
