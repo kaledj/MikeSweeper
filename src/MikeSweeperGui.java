@@ -15,13 +15,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 public class MikeSweeperGui implements ActionListener {
-	Icon icon = new ImageIcon("resources/10x10.png");
+	
+    public static int DIM = 10;
+    
+    Icon icon = new ImageIcon("resources/10x10.png");
 	Icon iconEx = new ImageIcon("resources/10x10ex.png");
 	Icon quest = new ImageIcon("resources/quest.png");
 	Icon smile = new ImageIcon("resources/smile.png");
+	Icon[] numberIcons = new ImageIcon[9];
+	
 	private MikeSweeper model;
-
 	private JFrame frmMikesweeper;
+	private JButton[][] buttons;
 
 	/**
 	 * Launch the application.
@@ -44,43 +49,78 @@ public class MikeSweeperGui implements ActionListener {
 	 */
 	public MikeSweeperGui() {
 		initialize();
+		System.out.println(model);
+	}
+	
+	public void updateView()
+	{
+	    int[][] board = model.getBoard();
+	    for(int i = 0; i < DIM; i++) {
+	        for(int j = 0; j < DIM; j++) {
+	            int val = board[i][j];
+	            //
+	        }
+	    }
 	}
 
-	/**
+	private void gameOver()
+    {
+	    int[][] board = model.getBoard();
+        for(int i = 0; i < DIM; i++) {
+            for(int j = 0; j < DIM; j++) {
+                int val = board[i][j];
+                if(val == 10) {
+                    buttons[i][j].setIcon(iconEx);
+                } 
+            }
+        }
+    }
+
+    /**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmMikesweeper = new JFrame();
+		createButtonsArray();
+		createIconsArray();
+
 		frmMikesweeper.setTitle("MikeSweeper");
 		frmMikesweeper.setBounds(100, 100, 400, 450);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmMikesweeper.getContentPane().setLayout(new GridLayout(10, 10, 0, 0));
+		frmMikesweeper.getContentPane().setLayout(new GridLayout(DIM, DIM, 0, 0));
 
 		// Makes board, and sets buttons to things and stuff.
-		model = new MikeSweeper(10);
-		int[][] tempArray = model.getBoard();
-		for (int i = 0; i < tempArray.length; i++) {
-			for (int j = 0; j < tempArray[i].length; j++) {
-				// This is a dumb way to name the buttons
-				if (tempArray[i][j] == 10) {
-					JButton ij = new JButton(icon);
-					ij.addActionListener(this);
-					frmMikesweeper.getContentPane().add(new JPanel().add(ij));
-				} else {
-					JButton ij = new JButton(quest);
-					ij.addActionListener(this);
-					frmMikesweeper.getContentPane().add(new JPanel().add(ij));
-				}
-
+		model = new MikeSweeper(DIM);
 			}
-		}
-	}
 
-	@Override
+	private void createButtonsArray()
+    {
+	    buttons = new JButton[DIM][DIM];
+	    for (int i = 0; i < DIM; i++) {
+            for (int j = 0; j < DIM; j++) {
+                JButton ij = new JButton(icon);
+                ij.addActionListener(this);
+                frmMikesweeper.getContentPane().add(new JPanel().add(ij));
+                buttons[i][j] = ij;
+            }
+        }
+    }
+
+    private void createIconsArray()
+    {
+        for(int i = 0; i < numberIcons.length; i++) {
+            numberIcons[i] = new ImageIcon("resources/");
+        }
+        
+    }
+
+    @Override
 	public void actionPerformed(ActionEvent e) {
 		findButton(e.getSource());
-
+		updateView();
 	}
+	
+	
 
 	// For later
 	public void findButton(Object source) {
