@@ -155,13 +155,13 @@ public class MikeSweeperGui implements ActionListener {
     	{
     		if (((JMenuItem) o).getName() == "newGame")
     		{
-    		initialize();
+    		    initialize();
     		}
     	}
     	else if (o instanceof JButton)
     	{
-    		int[] clicked = getButtonClicked(e);
-    		//updateModel(clicked[0], clicked[1]);
+    		int[] clicked = getButtonClicked((JButton)o);
+    		model.clicked(clicked[0], clicked[1]);
     	}
         updateView();
 	}
@@ -178,13 +178,13 @@ public class MikeSweeperGui implements ActionListener {
 
 	}
 	
-	public int[] getButtonClicked(Object source)
+	public int[] getButtonClicked(JButton source)
 	{
 		for (int i = 0; i < buttons.length; i++)
 		{
 			for (int j = 0; j < buttons[i].length; j++)
 			{
-				if (source.equals(buttons[i][j]))
+				if (source == buttons[i][j])
 				{
 					return new int[] {i,j};
 				}

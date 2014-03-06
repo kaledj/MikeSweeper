@@ -605,6 +605,30 @@ public class MikeSweeper
         return str;
     }
     
+    public void clicked(int i, int j)
+    {
+        int val = board[i][j];
+        if(val == 0) {
+            revealZeros(i, j);
+        } else if(val == 10) {
+            revealMines();
+        } else {
+            uncover(i, j);
+        }
+    }
+    
+    private void revealMines()
+    {
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board.length; j++) {
+                if(board[i][j] == 10) {
+                    uncover(i, j);
+                }
+            }
+        }
+            
+    }
+
     public static void main(String[] args)
     {
         MikeSweeper test = new MikeSweeper(10);
