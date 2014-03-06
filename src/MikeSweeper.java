@@ -6,12 +6,15 @@ public class MikeSweeper
     private int[][] board;
     private final int MAX_MINES = 20; //amount may change
     private int numTouching;
+    private boolean[][] coveredBoard;
+    private boolean covered;
     
     public MikeSweeper(int size)
     {
         setSize(size);
         setNumTouching(0);
         makeBoard(getSize());
+        
     }
 
     /**
@@ -24,6 +27,14 @@ public class MikeSweeper
         setNumTouching(0);
         fillMines(size);
         fillTouchMines(size);
+        coveredBoard = new boolean[size][size];
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                coveredBoard[i][j] = true;
+            }
+        }
     }
     public int[][] getBoard()
     {
@@ -56,6 +67,13 @@ public class MikeSweeper
     public int getNumTouching()
     {
         return numTouching;
+    }
+    /**
+     * returns the boolean in covered.
+     */
+    public boolean getCovered(int i, int j)
+    {
+        return coveredBoard[i][j];
     }
     /**
      * randomly fills in the grid with mines.
@@ -290,6 +308,21 @@ public class MikeSweeper
             setNumTouching(getNumTouching() + 1);
         if (board[i][j + 1] == 10)
             setNumTouching(getNumTouching() + 1);
+    }
+    /**
+     * uncovers the button clicked.
+     * false means uncovered. true means covered
+     */
+    public void uncover(int i, int j)
+    {
+        coveredBoard[i][j] = false;
+    }
+    /**
+     * returns all adjacent 0s of the one clicked.
+     */
+    public void revealZeros(int i, int j)
+    {
+        
     }
     /**
      * prints the board un-hidden.
