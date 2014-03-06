@@ -94,13 +94,14 @@ public class MikeSweeperGui implements ActionListener {
 		createIconsArray();
 
 		frmMikesweeper.setTitle("MikeSweeper");
-		frmMikesweeper.setBounds(100, 100, 400, 450);
+		frmMikesweeper.setBounds(100, 100, DIM * 39 + 8, DIM * 39 + 8);
+		frmMikesweeper.setResizable(false);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMikesweeper.getContentPane().setLayout(new GridLayout(DIM, DIM, 0, 0));
 
 		// Makes board, and sets buttons to things and stuff.
 		model = new MikeSweeper(DIM);
-			}
+	}
 
 	private void createButtonsArray()
     {
@@ -126,7 +127,9 @@ public class MikeSweeperGui implements ActionListener {
     @Override
 	public void actionPerformed(ActionEvent e) {
 		//findButton(e.getSource());
-		updateView();
+		int[] clicked = getButtonClicked(e);
+		updateModel(clicked[0], clicked[1]);
+        updateView();
 	}
 	
 	
@@ -141,7 +144,7 @@ public class MikeSweeperGui implements ActionListener {
 
 	}
 	
-	public int[] getButton(Object source)
+	public int[] getButtonClicked(Object source)
 	{
 		for (int i = 0; i < buttons.length; i++)
 		{
