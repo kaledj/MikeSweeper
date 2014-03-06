@@ -58,13 +58,15 @@ public class MikeSweeperGui implements ActionListener {
 	    int[][] board = model.getBoard();
 	    for(int i = 0; i < DIM; i++) {
 	        for(int j = 0; j < DIM; j++) {
-	            int val = board[i][j];
-	            if(val == 10) {
-	                buttons[i][j].setIcon(iconEx);
-	            } else if(val == 0){
-                    buttons[i][j].setIcon(icon);
-                } else {
-	                buttons[i][j].setIcon(numberIcons[val]);
+	            if(!model.getCovered(i, j)) {
+	                int val = board[i][j];
+    	            if(val == 10) {
+    	                buttons[i][j].setIcon(iconEx);
+    	            } else if(val == 0){
+                        buttons[i][j].setIcon(icon);
+                    } else {
+    	                buttons[i][j].setIcon(numberIcons[val]);
+    	            }
 	            }
 	        }
 	    }
@@ -123,7 +125,7 @@ public class MikeSweeperGui implements ActionListener {
 
     @Override
 	public void actionPerformed(ActionEvent e) {
-		findButton(e.getSource());
+		//findButton(e.getSource());
 		updateView();
 	}
 	
