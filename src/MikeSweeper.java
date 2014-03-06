@@ -7,7 +7,6 @@ public class MikeSweeper
     private final int MAX_MINES = 20; //amount may change
     private int numTouching;
     private boolean[][] coveredBoard;
-    private boolean covered;
     
     public MikeSweeper(int size)
     {
@@ -322,7 +321,50 @@ public class MikeSweeper
      */
     public void revealZeros(int i, int j)
     {
-        
+        if (board[i][j] == 0)
+        {
+            uncover(i,j);
+            uncover(i - 1, j - 1);
+            if (board[i - 1][j - 1] == 0)
+            {
+                revealZeros(i - 1, j -1);
+            }
+            uncover(i, j - 1);
+            if (board[i][j - 1] == 0)
+            {
+                revealZeros(i, j -1);
+            }
+            uncover(i + 1, j - 1);
+            if (board[i + 1][j - 1] == 0)
+            {
+                revealZeros(i + 1, j - 1);
+            }
+            uncover(i - 1, j);
+            if (board[i - 1][j] == 0)
+            {
+                revealZeros(i - 1, j);
+            }
+            uncover(i + 1, j);
+            if (board[i + 1][j] == 0)
+            {
+                revealZeros(i + 1, j);
+            }
+            uncover(i - 1, j + 1);
+            if (board[i - 1][j + 1] == 0)
+            {
+                revealZeros(i - 1, j + 1);
+            }
+            uncover(i, j + 1);
+            if (board[i][j + 1] == 0)
+            {
+                revealZeros(i, j + 1);
+            }
+            uncover(i + 1, j + 1);
+            if (board[i + 1][j + 1] == 0)
+            {
+                revealZeros(i + 1, j + 1);
+            }
+        }
     }
     /**
      * prints the board un-hidden.
