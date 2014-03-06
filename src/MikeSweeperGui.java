@@ -138,5 +138,20 @@ public class MikeSweeperGui implements ActionListener {
 		}
 
 	}
+	
+	public int[] getButton(Object source)
+	{
+		for (int i = 0; i < buttons.length; i++)
+		{
+			for (int j = 0; j < buttons[i].length; j++)
+			{
+				if (source.equals(buttons[i][j]))
+				{
+					return new int[] {i,j};
+				}
+			}
+		}
+		return null;
+	}
 
 }
