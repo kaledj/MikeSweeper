@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Menu;
@@ -9,10 +10,12 @@ import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class MikeSweeperGui implements ActionListener {
 	
@@ -27,6 +30,7 @@ public class MikeSweeperGui implements ActionListener {
 	
 	private MikeSweeper model;
 	private JFrame frmMikesweeper;
+	private JMenuItem mntmNewGame;
 	private JButton[][] buttons;
 
 	/**
@@ -50,7 +54,7 @@ public class MikeSweeperGui implements ActionListener {
 	 */
 	public MikeSweeperGui() {
 		initialize();
-		System.out.println(model);
+		
 	}
 	
 	public void updateView()
@@ -98,9 +102,28 @@ public class MikeSweeperGui implements ActionListener {
 		frmMikesweeper.setResizable(false);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMikesweeper.getContentPane().setLayout(new GridLayout(DIM, DIM, 0, 0));
+		
+		JMenuBar menuBar = new JMenuBar();
+		frmMikesweeper.setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmNewGame = new JMenuItem("New Game");
+		mntmNewGame.setName("newGame");
+		mntmNewGame.addActionListener(this);
+		mnFile.add(mntmNewGame);
+		
+		
+		JMenuItem mntmReset = new JMenuItem("Reset");
+		mnFile.add(mntmReset);
+		
+		JMenuItem mntmQuit = new JMenuItem("Quit");
+		mnFile.add(mntmQuit);
 
 		// Makes board, and sets buttons to things and stuff.
 		model = new MikeSweeper(DIM);
+		System.out.println(model);
 	}
 
 	private void createButtonsArray()
@@ -126,9 +149,20 @@ public class MikeSweeperGui implements ActionListener {
 
     @Override
 	public void actionPerformed(ActionEvent e) {
-		//findButton(e.getSource());
-		int[] clicked = getButtonClicked(e);
-		updateModel(clicked[0], clicked[1]);
+		Object o = e.getSource();
+    	//findButton(e.getSource());
+    	if (o instanceof JMenuItem)
+    	{
+    		if (((JMenuItem) o).getName() == "newGame")
+    		{
+    		initialize();
+    		}
+    	}
+    	else if (o instanceof JButton)
+    	{
+    		int[] clicked = getButtonClicked(e);
+    		//updateModel(clicked[0], clicked[1]);
+    	}
         updateView();
 	}
 	
