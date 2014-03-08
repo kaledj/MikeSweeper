@@ -321,28 +321,28 @@ public class MikeSweeper
      */
     public void revealZeros(int i, int j)
     {
-        
+        uncover(i, j);
         if (i >= 1 && i <= size - 2 && j >= 1 && j <= size - 2) //for the center buttons
         {
             restRevealZero(i, j);
         }
-        if ((i == 0 && j >= 1 && j <= size - 2) || (i == size - 1 && j >= 1 && j <= size - 2)
+        if ((i == 0 && j >= 1 && j <= size - 2) || (i == size - 1 && j >= 1 && j <= size - 2) //side buttons
                 || (j == 0 && i >= 1 && i <= size - 2) || (j == size - 1 && i >= 1 && i <= size - 2))
         {
             sideRevealZeros(i, j);
         }
-        if ((i == 0 && j == 0) || (i == 0 && j == size - 1) || (i == size - 1 && j == 0)
+        if ((i == 0 && j == 0) || (i == 0 && j == size - 1) || (i == size - 1 && j == 0) //corner buttons
                 || (i == size - 1 && j == size - 1))
         {
             cornerRevealZeros(i, j);
         }
+        return;
     }
     /**
      * helper method for revealZero, for corner buttons.
      */
     public void cornerRevealZeros(int i, int j)
     {
-        uncover(i, j);
         if (i == 0 && j == 0) //top-left corner
         {
             uncover(i, j + 1);
@@ -360,6 +360,7 @@ public class MikeSweeper
             {
                 revealZeros(i + 1, j + 1);
             }
+            return;
         }
         if (i == 0 && j == size - 1) //top-right corner
         {
@@ -378,6 +379,7 @@ public class MikeSweeper
             {
                 revealZeros(i + 1, j);
             }
+            return;
         }
         if (i == size - 1 && j == 0) //bottom-left corner
         {
@@ -397,6 +399,7 @@ public class MikeSweeper
             {
                 revealZeros(i, j + 1);
             }
+            return;
         }
         if (i == size - 1 && j == size - 1) //bottom-right corner
         {
@@ -415,14 +418,15 @@ public class MikeSweeper
             {
                 revealZeros(i, j -1);
             }
+            return;
         }
+        return;
     }
     /**
      * helper method for revealZero, for side buttons.
      */
     public void sideRevealZeros(int i, int j)
     {
-        uncover(i, j);
         if (i == 0 && j >= 1 && j <= size - 2) //top row
         {
             uncover(i, j - 1);
@@ -450,6 +454,7 @@ public class MikeSweeper
             {
                 revealZeros(i + 1, j + 1);
             }
+            return;
         }
         if (i == size - 1 && j >= 1 && j <= size - 2) //bottom row
         {
@@ -478,6 +483,7 @@ public class MikeSweeper
             {
                 revealZeros(i, j + 1);
             }
+            return;
         }
         if (i >= 1 && i <= size - 2 && j == 0) //left side
         {
@@ -506,6 +512,7 @@ public class MikeSweeper
             {
                 revealZeros(i + 1, j + 1);
             }
+            return;
         }
         if (i >= 1 && i <= size - 2 && j == size - 1) //right side
         {
@@ -534,14 +541,15 @@ public class MikeSweeper
             {
                 revealZeros(i + 1, j);
             }
+            return;
         }
+        return;
     }
     /**
      * helper method for revealZero, for center buttons.
      */
     public void restRevealZero(int i, int j)
     {
-        uncover(i, j);
         if (board[i][j] == 0)
         {
             uncover(i - 1, j - 1);
@@ -584,7 +592,9 @@ public class MikeSweeper
             {
                 revealZeros(i + 1, j + 1);
             }
+            return;
         }
+        return;
     }
     /**
      * prints the board un-hidden.
