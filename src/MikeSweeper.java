@@ -321,6 +321,8 @@ public class MikeSweeper
      */
     public void revealZeros(int i, int j)
     {
+        if (coveredBoard[i][j])
+        {
         uncover(i, j);
         if (i >= 1 && i <= size - 2 && j >= 1 && j <= size - 2) //for the center buttons
         {
@@ -335,6 +337,7 @@ public class MikeSweeper
                 || (i == size - 1 && j == size - 1))
         {
             cornerRevealZeros(i, j);
+        }
         }
         return;
     }
