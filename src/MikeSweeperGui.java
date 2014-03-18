@@ -67,7 +67,7 @@ public class MikeSweeperGui implements ActionListener {
     	            if(val == 10) {
     	                buttons[i][j].setIcon(iconEx);
     	            } else if(val == 0){
-                        buttons[i][j].setIcon(icon);
+                        buttons[i][j].setIcon(numberIcons[0]);
                     } else {
     	                buttons[i][j].setIcon(numberIcons[val]);
     	            }
