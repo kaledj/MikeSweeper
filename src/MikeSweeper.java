@@ -328,12 +328,12 @@ public class MikeSweeper
         {
             restRevealZero(i, j);
         }
-        if ((i == 0 && j >= 1 && j <= size - 2) || (i == size - 1 && j >= 1 && j <= size - 2) //side buttons
+        else if ((i == 0 && j >= 1 && j <= size - 2) || (i == size - 1 && j >= 1 && j <= size - 2) //side buttons
                 || (j == 0 && i >= 1 && i <= size - 2) || (j == size - 1 && i >= 1 && i <= size - 2))
         {
             sideRevealZeros(i, j);
         }
-        if ((i == 0 && j == 0) || (i == 0 && j == size - 1) || (i == size - 1 && j == 0) //corner buttons
+        else if ((i == 0 && j == 0) || (i == 0 && j == size - 1) || (i == size - 1 && j == 0) //corner buttons
                 || (i == size - 1 && j == size - 1))
         {
             cornerRevealZeros(i, j);
@@ -349,17 +349,17 @@ public class MikeSweeper
         if (i == 0 && j == 0) //top-left corner
         {
             uncover(i, j + 1);
+            uncover(i + 1, j);
+            uncover(i + 1, j + 1);
             if (board[i][j + 1] == 0)
             {
                 revealZeros(i, j + 1);
             }
-            uncover(i + 1, j);
-            if (board[i + 1][j] == 0)
+            else if (board[i + 1][j] == 0)
             {
                 revealZeros(i + 1, j);
             }
-            uncover(i + 1, j + 1);
-            if (board[i + 1][j + 1] == 0)
+            else if (board[i + 1][j + 1] == 0)
             {
                 revealZeros(i + 1, j + 1);
             }
@@ -368,17 +368,17 @@ public class MikeSweeper
         if (i == 0 && j == size - 1) //top-right corner
         {
             uncover(i, j - 1);
+            uncover(i + 1, j - 1);
+            uncover(i + 1, j);
             if (board[i][j - 1] == 0)
             {
                 revealZeros(i, j -1);
             }
-            uncover(i + 1, j - 1);
-            if (board[i + 1][j - 1] == 0)
+            else if (board[i + 1][j - 1] == 0)
             {
                 revealZeros(i + 1, j - 1);
             }
-            uncover(i + 1, j);
-            if (board[i + 1][j] == 0)
+            else if (board[i + 1][j] == 0)
             {
                 revealZeros(i + 1, j);
             }
@@ -386,19 +386,18 @@ public class MikeSweeper
         }
         if (i == size - 1 && j == 0) //bottom-left corner
         {
-            uncover(i, j);
             uncover(i - 1, j);
+            uncover(i - 1, j + 1);
+            uncover(i, j + 1);
             if (board[i - 1][j] == 0)
             {
                 revealZeros(i - 1, j);
             }
-            uncover(i - 1, j + 1);
-            if (board[i - 1][j + 1] == 0)
+            else if (board[i - 1][j + 1] == 0)
             {
                 revealZeros(i - 1, j + 1);
             }
-            uncover(i, j + 1);
-            if (board[i][j + 1] == 0)
+            else if (board[i][j + 1] == 0)
             {
                 revealZeros(i, j + 1);
             }
@@ -407,17 +406,17 @@ public class MikeSweeper
         if (i == size - 1 && j == size - 1) //bottom-right corner
         {
             uncover(i - 1, j - 1);
+            uncover(i - 1, j);
+            uncover(i, j - 1);
             if (board[i - 1][j - 1] == 0)
             {
                 revealZeros(i - 1, j -1);
             }
-            uncover(i - 1, j);
-            if (board[i - 1][j] == 0)
+            else if (board[i - 1][j] == 0)
             {
                 revealZeros(i - 1, j);
             }
-            uncover(i, j - 1);
-            if (board[i][j - 1] == 0)
+            else if (board[i][j - 1] == 0)
             {
                 revealZeros(i, j -1);
             }
@@ -433,27 +432,27 @@ public class MikeSweeper
         if (i == 0 && j >= 1 && j <= size - 2) //top row
         {
             uncover(i, j - 1);
+            uncover(i, j + 1);
+            uncover(i + 1, j - 1);
+            uncover(i + 1, j);
+            uncover(i + 1, j + 1);
             if (board[i][j - 1] == 0)
             {
                 revealZeros(i, j -1);
             }
-            uncover(i, j + 1);
-            if (board[i][j + 1] == 0)
+            else if (board[i][j + 1] == 0)
             {
                 revealZeros(i, j + 1);
             }
-            uncover(i + 1, j - 1);
-            if (board[i + 1][j - 1] == 0)
+            else if (board[i + 1][j - 1] == 0)
             {
                 revealZeros(i + 1, j - 1);
             }
-            uncover(i + 1, j);
-            if (board[i + 1][j] == 0)
+            else if (board[i + 1][j] == 0)
             {
                 revealZeros(i + 1, j);
             }
-            uncover(i + 1, j + 1);
-            if (board[i + 1][j + 1] == 0)
+            else if (board[i + 1][j + 1] == 0)
             {
                 revealZeros(i + 1, j + 1);
             }
@@ -462,27 +461,27 @@ public class MikeSweeper
         if (i == size - 1 && j >= 1 && j <= size - 2) //bottom row
         {
             uncover(i - 1, j - 1);
+            uncover(i - 1, j);
+            uncover(i - 1, j + 1);
+            uncover(i, j - 1);
+            uncover(i, j + 1);
             if (board[i - 1][j - 1] == 0)
             {
                 revealZeros(i - 1, j -1);
             }
-            uncover(i - 1, j);
-            if (board[i - 1][j] == 0)
+            else if (board[i - 1][j] == 0)
             {
                 revealZeros(i - 1, j);
             }
-            uncover(i - 1, j + 1);
-            if (board[i - 1][j + 1] == 0)
+            else if (board[i - 1][j + 1] == 0)
             {
                 revealZeros(i - 1, j + 1);
             }
-            uncover(i, j - 1);
-            if (board[i][j - 1] == 0)
+            else if (board[i][j - 1] == 0)
             {
                 revealZeros(i, j -1);
             }
-            uncover(i, j + 1);
-            if (board[i][j + 1] == 0)
+            else if (board[i][j + 1] == 0)
             {
                 revealZeros(i, j + 1);
             }
@@ -491,27 +490,27 @@ public class MikeSweeper
         if (i >= 1 && i <= size - 2 && j == 0) //left side
         {
             uncover(i - 1, j);
+            uncover(i - 1, j + 1);
+            uncover(i, j + 1);
+            uncover(i + 1, j);
+            uncover(i + 1, j + 1);
             if (board[i - 1][j] == 0)
             {
                 revealZeros(i - 1, j);
             }
-            uncover(i - 1, j + 1);
-            if (board[i - 1][j + 1] == 0)
+            else if (board[i - 1][j + 1] == 0)
             {
                 revealZeros(i - 1, j + 1);
             }
-            uncover(i, j + 1);
-            if (board[i][j + 1] == 0)
+            else if (board[i][j + 1] == 0)
             {
                 revealZeros(i, j + 1);
             }
-            uncover(i + 1, j);
-            if (board[i + 1][j] == 0)
+            else if (board[i + 1][j] == 0)
             {
                 revealZeros(i + 1, j);
             }
-            uncover(i + 1, j + 1);
-            if (board[i + 1][j + 1] == 0)
+            else if (board[i + 1][j + 1] == 0)
             {
                 revealZeros(i + 1, j + 1);
             }
@@ -520,27 +519,27 @@ public class MikeSweeper
         if (i >= 1 && i <= size - 2 && j == size - 1) //right side
         {
             uncover(i - 1, j - 1);
+            uncover(i - 1, j);
+            uncover(i, j - 1);
+            uncover(i + 1, j - 1);
+            uncover(i + 1, j);
             if (board[i - 1][j - 1] == 0)
             {
                 revealZeros(i - 1, j -1);
             }
-            uncover(i - 1, j);
-            if (board[i - 1][j] == 0)
+            else if (board[i - 1][j] == 0)
             {
                 revealZeros(i - 1, j);
             }
-            uncover(i, j - 1);
-            if (board[i][j - 1] == 0)
+            else if (board[i][j - 1] == 0)
             {
                 revealZeros(i, j -1);
             }
-            uncover(i + 1, j - 1);
-            if (board[i + 1][j - 1] == 0)
+            else if (board[i + 1][j - 1] == 0)
             {
                 revealZeros(i + 1, j - 1);
             }
-            uncover(i + 1, j);
-            if (board[i + 1][j] == 0)
+            else if (board[i + 1][j] == 0)
             {
                 revealZeros(i + 1, j);
             }
@@ -556,42 +555,42 @@ public class MikeSweeper
         if (board[i][j] == 0)
         {
             uncover(i - 1, j - 1);
+            uncover(i, j - 1);
+            uncover(i + 1, j - 1);
+            uncover(i - 1, j);
+            uncover(i + 1, j);
+            uncover(i - 1, j + 1);
+            uncover(i, j + 1);
+            uncover(i + 1, j + 1);
             if (board[i - 1][j - 1] == 0)
             {
                 revealZeros(i - 1, j -1);
             }
-            uncover(i, j - 1);
-            if (board[i][j - 1] == 0)
+            else if (board[i][j - 1] == 0)
             {
                 revealZeros(i, j -1);
             }
-            uncover(i + 1, j - 1);
-            if (board[i + 1][j - 1] == 0)
+            else if (board[i + 1][j - 1] == 0)
             {
                 revealZeros(i + 1, j - 1);
             }
-            uncover(i - 1, j);
-            if (board[i - 1][j] == 0)
+            else if (board[i - 1][j] == 0)
             {
                 revealZeros(i - 1, j);
             }
-            uncover(i + 1, j);
-            if (board[i + 1][j] == 0)
+            else if (board[i + 1][j] == 0)
             {
                 revealZeros(i + 1, j);
             }
-            uncover(i - 1, j + 1);
-            if (board[i - 1][j + 1] == 0)
+            else if (board[i - 1][j + 1] == 0)
             {
                 revealZeros(i - 1, j + 1);
             }
-            uncover(i, j + 1);
-            if (board[i][j + 1] == 0)
+            else if (board[i][j + 1] == 0)
             {
                 revealZeros(i, j + 1);
             }
-            uncover(i + 1, j + 1);
-            if (board[i + 1][j + 1] == 0)
+            else if (board[i + 1][j + 1] == 0)
             {
                 revealZeros(i + 1, j + 1);
             }
