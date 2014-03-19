@@ -7,13 +7,14 @@ public class MikeSweeper
     private final int MAX_MINES = 20; //amount may change
     private int numTouching;
     private boolean[][] coveredBoard;
+    private boolean gameOver;
     
     public MikeSweeper(int size)
     {
         setSize(size);
         setNumTouching(0);
         makeBoard(getSize());
-        
+        gameOver = false;
     }
 
     /**
@@ -321,25 +322,26 @@ public class MikeSweeper
      */
     public void revealZeros(int i, int j)
     {
-        if (coveredBoard[i][j])
-        {
         uncover(i, j);
-        if (i >= 1 && i <= size - 2 && j >= 1 && j <= size - 2) //for the center buttons
-        {
-            restRevealZero(i, j);
+        // Reveal all hidden, adjacent zeros and their adjacent squares
+        for(int ii = i-1; ii <= i+1; ii++) {
+            for(int jj = j-1; jj <= j+1; jj++) {
+                if(ii >= 0 && ii < size) {
+                    if(jj >= 0 && jj < size) {
+                        if(coveredBoard[ii][jj]) {
+                            if(board[ii][jj] == 0) {
+                                revealZeros(ii, jj);
+                            } 
+                            else if(board[ii][jj] != 10) {
+                                uncover(ii, jj);
+                            }
+                        }
+                    }
+                }
+            }
         }
-        else if ((i == 0 && j >= 1 && j <= size - 2) || (i == size - 1 && j >= 1 && j <= size - 2) //side buttons
-                || (j == 0 && i >= 1 && i <= size - 2) || (j == size - 1 && i >= 1 && i <= size - 2))
-        {
-            sideRevealZeros(i, j);
-        }
-        else if ((i == 0 && j == 0) || (i == 0 && j == size - 1) || (i == size - 1 && j == 0) //corner buttons
-                || (i == size - 1 && j == size - 1))
-        {
-            cornerRevealZeros(i, j);
-        }
-        }
-        return;
+            
+            
     }
     /**
      * helper method for revealZero, for corner buttons.
@@ -624,6 +626,7 @@ public class MikeSweeper
             revealZeros(i, j);
         } else if(val == 10) {
             revealMines();
+            gameOver = true;
         } else {
             uncover(i, j);
         }
