@@ -1,4 +1,3 @@
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.Menu;
@@ -19,7 +18,7 @@ import javax.swing.JMenu;
 
 public class MikeSweeperGui implements ActionListener {
 	
-    public static int DIM = 10;
+    public static int DIM = 20;
     
     Icon icon = new ImageIcon("resources/10x10.png");
     Icon blankIcon = new ImageIcon("resources/blank.png");
@@ -53,8 +52,7 @@ public class MikeSweeperGui implements ActionListener {
 	 * Create the application.
 	 */
 	public MikeSweeperGui() {
-		initialize();
-		
+		initialize();		
 	}
 	
 	public void updateView()
@@ -76,20 +74,7 @@ public class MikeSweeperGui implements ActionListener {
 	    }
 	}
 
-	private void gameOver()
-    {
-	    int[][] board = model.getBoard();
-        for(int i = 0; i < DIM; i++) {
-            for(int j = 0; j < DIM; j++) {
-                int val = board[i][j];
-                if(val == 10) {
-                    buttons[i][j].setIcon(iconEx);
-                } 
-            }
-        }
-    }
-
-    /**
+	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
@@ -149,7 +134,7 @@ public class MikeSweeperGui implements ActionListener {
 
     @Override
 	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
+        Object o = e.getSource();
     	//findButton(e.getSource());
     	if (o instanceof JMenuItem)
     	{

@@ -339,10 +339,9 @@ public class MikeSweeper
                     }
                 }
             }
-        }
-            
-            
+        }    
     }
+    
     /**
      * helper method for revealZero, for corner buttons.
      */
@@ -549,6 +548,7 @@ public class MikeSweeper
         }
         return;
     }
+    
     /**
      * helper method for revealZero, for center buttons.
      */
@@ -621,6 +621,7 @@ public class MikeSweeper
     
     public void clicked(int i, int j)
     {
+        if(gameOver) return;
         int val = board[i][j];
         if(val == 0) {
             revealZeros(i, j);
