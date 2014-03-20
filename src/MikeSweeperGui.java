@@ -113,7 +113,7 @@ public class MikeSweeperGui implements ActionListener {
 		menuBar.add(clock);
 		
 		// Makes board, and sets buttons to things and stuff.
-		model = new MikeSweeper(DIM);
+		model = new MikeSweeper(Difficulty.EASY);
 		System.out.println(model);
 	}
 
