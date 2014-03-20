@@ -734,11 +734,7 @@ public class MikeSweeper
             
     }
     
-<<<<<<< HEAD
-    public boolean gameOver()
-=======
     public boolean getGameOver()
->>>>>>> 01f1d5cdb24afd7b973ef74a6a93caf578c09867
     {
     	return gameOver;
     }
