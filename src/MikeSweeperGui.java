@@ -17,6 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 public class MikeSweeperGui implements ActionListener {
 	
@@ -33,6 +34,9 @@ public class MikeSweeperGui implements ActionListener {
 	private JFrame frmMikesweeper;
 	private JMenuItem mntmNewGame;
 	private JButton[][] buttons;
+	private JLabel clock;
+	private int timeElapsed;
+	private boolean counting;
 
 	/**
 	 * Launch the application.
@@ -80,6 +84,7 @@ public class MikeSweeperGui implements ActionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		counting = false;
 		frmMikesweeper = new JFrame();
 		createButtonsArray();
 		createIconsArray();
@@ -108,9 +113,9 @@ public class MikeSweeperGui implements ActionListener {
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mnFile.add(mntmQuit);
 		
-		JLabel lblNewLabel = new JLabel(String.format("%120d", 000));
-		menuBar.add(lblNewLabel);
-
+		clock = new JLabel(String.format("%120d",  0));
+		menuBar.add(clock);
+		
 		// Makes board, and sets buttons to things and stuff.
 		model = new MikeSweeper(DIM);
 		System.out.println(model);
@@ -150,8 +155,18 @@ public class MikeSweeperGui implements ActionListener {
     	}
     	else if (o instanceof JButton)
     	{
+    		if(!counting) 
+    		{
+    			counting = true;
+    			count();
+    		}
     		int[] clicked = getButtonClicked((JButton)o);
     		model.clicked(clicked[0], clicked[1]);
+    	}
+    	else if (o instanceof Timer) 
+    	{
+    		timeElapsed++;
+    		clock.setText(String.format("%120d", timeElapsed));
     	}
         updateView();
 	}
@@ -185,7 +200,8 @@ public class MikeSweeperGui implements ActionListener {
 	
 	private void count()
 	{
-		
+		Timer timer = new Timer(1000, this);
+		timer.start();
 	}
 
 }
