@@ -4,19 +4,94 @@ public class MikeSweeper
 {
     private int size;
     private int[][] board;
-    private final int MAX_MINES = 20; //amount may change
+    private int maxMines; 
     private int numTouching;
     private boolean[][] coveredBoard;
     private boolean gameOver;
+    private Difficulty difficulty;
     
-    public MikeSweeper(int size)
+    public MikeSweeper(Difficulty diff)
     {
-        setSize(size);
+        difficultySelect(diff);
         setNumTouching(0);
         makeBoard(getSize());
         gameOver = false;
     }
-
+    /**
+     * sets the difficulty.
+     * @param diff
+     */
+    public void setDifficulty(Difficulty diff)
+    {
+        this.difficulty = diff;
+    }
+    /**
+     * returns the difficulty.
+     * @return
+     */
+    public Difficulty getDifficulty()
+    {
+        return difficulty;
+    }
+    /**
+     * selects the difficulty and sets the size and mines.
+     * @param diff
+     */
+    public void difficultySelect(Difficulty diff)
+    {
+        switch (diff) {
+            case EASY:
+                setSize(9);
+                setMines(10);
+                break;
+                    
+            case MEDIUM:
+                setSize(16);
+                setMines(40);
+                break;
+                         
+            case HARD:
+                setSize(20);
+                setMines(99);
+                break;
+                        
+            case CUSTOM:
+                try
+                {
+                    makeCustom(size, maxMines);
+                }
+                catch (IllegalArgumentException e)
+                {
+                    System.out.println("Number of mines must be between 10 to " + ((size * size) - 1));
+                    difficultySelect(diff);
+                }
+                break;
+                
+            default:
+                setSize(16);
+                setMines(40);
+                break;
+        }
+    }
+    /**
+     * makes a custom board.
+     */
+    public void makeCustom(int size, int mines) throws IllegalArgumentException
+    {
+        setSize(size);
+        if (mines > 10)
+        {
+            if (mines >= size * size)
+            {
+                throw new IllegalArgumentException("Too many mines.");
+            }
+            setMines(mines);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Too few mines.");
+        }
+    }
     /**
      * creates the board.
      * 
@@ -55,6 +130,20 @@ public class MikeSweeper
         return size;
     }
     /**
+     * sets max mines.
+     */
+    public void setMines(int mines)
+    {
+        this.maxMines = mines;
+    }
+    /**
+     * returns max mines.
+     */
+    public int getMines()
+    {
+        return this.maxMines;
+    }
+    /**
      * sets numTouching.
      */
     public void setNumTouching(int num)
@@ -85,7 +174,7 @@ public class MikeSweeper
         int ranX;
         int ranY;
         int numMines = 0;
-        while (numMines < MAX_MINES)
+        while (numMines < maxMines)
         {
             ranX = random.nextInt(size);
             ranY = random.nextInt(size);
@@ -645,14 +734,18 @@ public class MikeSweeper
             
     }
     
+<<<<<<< HEAD
     public boolean gameOver()
+=======
+    public boolean getGameOver()
+>>>>>>> 01f1d5cdb24afd7b973ef74a6a93caf578c09867
     {
     	return gameOver;
     }
 
     public static void main(String[] args)
     {
-        MikeSweeper test = new MikeSweeper(10);
+        MikeSweeper test = new MikeSweeper(Difficulty.EASY);
         System.out.println(test);
     }
 }

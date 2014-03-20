@@ -1,7 +1,5 @@
 import java.awt.EventQueue;
 import java.awt.GridLayout;
-import java.awt.Menu;
-import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,13 +7,11 @@ import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
-import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
@@ -117,7 +113,7 @@ public class MikeSweeperGui implements ActionListener {
 		menuBar.add(clock);
 		
 		// Makes board, and sets buttons to things and stuff.
-		model = new MikeSweeper(DIM);
+		model = new MikeSweeper(Difficulty.EASY);
 		System.out.println(model);
 	}
 
@@ -165,6 +161,10 @@ public class MikeSweeperGui implements ActionListener {
     	}
     	else if (o instanceof Timer) 
     	{
+    		if (model.getGameOver())
+    		{
+    			clock.setText(String.format("%120d %s", timeElapsed, "Game Over"));
+    		}
     		timeElapsed++;
     		clock.setText(String.format("%120d", timeElapsed));
     	}
