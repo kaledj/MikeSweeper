@@ -7,6 +7,7 @@ import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
@@ -25,6 +26,7 @@ public class MikeSweeperGui implements ActionListener {
 	Icon[] numberIcons = new ImageIcon[9];
 	
 	private MikeSweeper model;
+	private JDialog dialog;
 	private JFrame frmMikesweeper;
 	private JMenuItem mntmNewGame;
 	private JButton[][] buttons;
@@ -41,6 +43,7 @@ public class MikeSweeperGui implements ActionListener {
 				try {
 					MikeSweeperGui window = new MikeSweeperGui();
 					window.frmMikesweeper.setVisible(true);
+					window.dialog.setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -187,6 +190,11 @@ public class MikeSweeperGui implements ActionListener {
 		System.out.println(model);
 		timeElapsed = 0;
 		updateView();
+	}
+	
+	private void newGame()
+	{
+		dialog.setVisible(true);
 	}
 
 	// For later
