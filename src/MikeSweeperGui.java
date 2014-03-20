@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
+import javax.swing.JTextPane;
+import javax.swing.JLabel;
 
 public class MikeSweeperGui implements ActionListener {
 	
@@ -105,6 +107,9 @@ public class MikeSweeperGui implements ActionListener {
 		
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mnFile.add(mntmQuit);
+		
+		JLabel lblNewLabel = new JLabel(String.format("%120d", 000));
+		menuBar.add(lblNewLabel);
 
 		// Makes board, and sets buttons to things and stuff.
 		model = new MikeSweeper(DIM);
@@ -176,6 +181,11 @@ public class MikeSweeperGui implements ActionListener {
 			}
 		}
 		return null;
+	}
+	
+	private void count()
+	{
+		
 	}
 
 }
