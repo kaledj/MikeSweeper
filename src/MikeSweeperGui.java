@@ -192,10 +192,8 @@ public class MikeSweeperGui implements ActionListener {
     		if (((JButton) o).getName() == "easy")
     		{
     			dialog.setVisible(false);
-    			model.coverAll();
-    			model.setGameOver(false);
-    			model.setDifficulty(Difficulty.EASY);
-    			timeElapsed = 0;
+    			System.out.println("dicks");
+    			model = new MikeSweeper(Difficulty.EASY);
     			updateView();
     		}
     		else
