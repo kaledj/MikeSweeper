@@ -17,8 +17,6 @@ import javax.swing.Timer;
 
 public class MikeSweeperGui implements ActionListener {
 	
-    public static int DIM = 20;
-    
     Icon icon = new ImageIcon("resources/10x10.png");
     Icon blankIcon = new ImageIcon("resources/blank.png");
 	Icon iconEx = new ImageIcon("resources/10x10ex.png");
@@ -60,8 +58,8 @@ public class MikeSweeperGui implements ActionListener {
 	public void updateView()
 	{
 	    int[][] board = model.getBoard();
-	    for(int i = 0; i < DIM; i++) {
-	        for(int j = 0; j < DIM; j++) {
+	    for(int i = 0; i < model.getSize(); i++) {
+	        for(int j = 0; j < model.getSize(); j++) {
 	            if(!model.getCovered(i, j)) {
 	                int val = board[i][j];
     	            if(val == 10) {
@@ -80,16 +78,18 @@ public class MikeSweeperGui implements ActionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		// Makes board, and sets buttons to things and stuff.
+		model = new MikeSweeper(Difficulty.MEDIUM);
 		counting = false;
 		frmMikesweeper = new JFrame();
 		createButtonsArray();
 		createIconsArray();
 
 		frmMikesweeper.setTitle("MikeSweeper");
-		frmMikesweeper.setBounds(100, 100, DIM * 39 + 8, DIM * 39 + 8);
+		frmMikesweeper.setBounds(100, 100, model.getSize() * 39 + 8, model.getSize() * 39 + 8);
 		frmMikesweeper.setResizable(false);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmMikesweeper.getContentPane().setLayout(new GridLayout(DIM, DIM, 0, 0));
+		frmMikesweeper.getContentPane().setLayout(new GridLayout(model.getSize(), model.getSize(), 0, 0));
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmMikesweeper.setJMenuBar(menuBar);
@@ -111,17 +111,15 @@ public class MikeSweeperGui implements ActionListener {
 		
 		clock = new JLabel(String.format("%120d",  0));
 		menuBar.add(clock);
-		
-		// Makes board, and sets buttons to things and stuff.
-		model = new MikeSweeper(Difficulty.EASY);
+				
 		System.out.println(model);
 	}
 
 	private void createButtonsArray()
     {
-	    buttons = new JButton[DIM][DIM];
-	    for (int i = 0; i < DIM; i++) {
-            for (int j = 0; j < DIM; j++) {
+	    buttons = new JButton[model.getSize()][model.getSize()];
+	    for (int i = 0; i < model.getSize(); i++) {
+            for (int j = 0; j < model.getSize(); j++) {
                 JButton ij = new JButton(icon);
                 ij.addActionListener(this);
                 frmMikesweeper.getContentPane().add(new JPanel().add(ij));
