@@ -185,9 +185,8 @@ public class MikeSweeperGui implements ActionListener {
 
 	private void reset()
 	{
-		Difficulty difficulty = model.getDifficulty();
-		model = new MikeSweeper(difficulty);
-		System.out.println(model);
+		model.coverAll();
+		model.setGameOver(false);
 		timeElapsed = 0;
 		updateView();
 	}

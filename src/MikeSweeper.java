@@ -745,4 +745,17 @@ public class MikeSweeper
         MikeSweeper test = new MikeSweeper(Difficulty.EASY);
         System.out.println(test);
     }
+    
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+	
+	public void coverAll() {
+		for(int i = 0; i < coveredBoard.length; i++) {
+			for(int j = 0; j < coveredBoard[i].length; j++) {
+				coveredBoard[i][j] = true;
+			}
+		}
+		
+	}
 }
