@@ -1,4 +1,6 @@
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,16 +90,23 @@ public class MikeSweeperGui implements ActionListener {
 		model = new MikeSweeper(Difficulty.MEDIUM);
 		counting = false;
 		
-		dialog = new JDialog();
+		dialog = new JDialog(frmMikesweeper, "Choose difficulty");
+		dialog.setSize(new Dimension(75, 75));
+		dialog.setLayout(new FlowLayout());
+		
 		JButton easy = new JButton("Easy");
+		easy.setName("easy");
 		JButton med = new JButton("Medium");
 		JButton hard = new JButton("Hard");
 		dialog.add(easy);
+		easy.setBounds(0, 0, 20, 10);
 		easy.addActionListener(this);
 		dialog.add(med);
 		med.addActionListener(this);
 		dialog.add(hard);
 		hard.addActionListener(this);
+		dialog.validate();
+		dialog.pack();
 		
 		frmMikesweeper = new JFrame();
 		createButtonsArray();
@@ -180,8 +189,20 @@ public class MikeSweeperGui implements ActionListener {
     			counting = true;
     			count();
     		}
+    		if (((JButton) o).getName() == "easy")
+    		{
+    			dialog.setVisible(false);
+    			model.coverAll();
+    			model.setGameOver(false);
+    			model.setDifficulty(Difficulty.EASY);
+    			timeElapsed = 0;
+    			updateView();
+    		}
+    		else
+    		{
     		int[] clicked = getButtonClicked((JButton)o);
     		model.clicked(clicked[0], clicked[1]);
+    		}
     	}
     	else if (o instanceof Timer) 
     	{
