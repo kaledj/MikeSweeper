@@ -87,6 +87,18 @@ public class MikeSweeperGui implements ActionListener {
 		// Makes board, and sets buttons to things and stuff.
 		model = new MikeSweeper(Difficulty.MEDIUM);
 		counting = false;
+		
+		dialog = new JDialog();
+		JButton easy = new JButton("Easy");
+		JButton med = new JButton("Medium");
+		JButton hard = new JButton("Hard");
+		dialog.add(easy);
+		easy.addActionListener(this);
+		dialog.add(med);
+		med.addActionListener(this);
+		dialog.add(hard);
+		hard.addActionListener(this);
+		
 		frmMikesweeper = new JFrame();
 		createButtonsArray();
 		createIconsArray();
@@ -155,6 +167,10 @@ public class MikeSweeperGui implements ActionListener {
     		if (((JMenuItem) o).getName() == "reset")
     		{
     		    reset();
+    		}
+    		else if (((JMenuItem) o).getName() == "newGame")
+    		{
+    			newGame();
     		}
     	}
     	else if (o instanceof JButton)
