@@ -644,6 +644,11 @@ public class MikeSweeper
         }
             
     }
+    
+    public boolean gameOver()
+    {
+    	return gameOver;
+    }
 
     public static void main(String[] args)
     {
