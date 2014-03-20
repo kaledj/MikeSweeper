@@ -165,6 +165,10 @@ public class MikeSweeperGui implements ActionListener {
     	}
     	else if (o instanceof Timer) 
     	{
+    		if (model.getGameOver())
+    		{
+    			clock.setText(String.format("%120d %s", timeElapsed, "Game Over"));
+    		}
     		timeElapsed++;
     		clock.setText(String.format("%120d", timeElapsed));
     	}
