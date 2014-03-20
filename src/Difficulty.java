@@ -1,7 +1,7 @@
 /**
  * enum difficulty settings.
  * 
- * @author Michael
+ * @author David & Scott
  * @version 1.1
  *
  */

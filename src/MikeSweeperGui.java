@@ -70,6 +70,9 @@ public class MikeSweeperGui implements ActionListener {
     	                buttons[i][j].setIcon(numberIcons[val]);
     	            }
 	            }
+	            else {
+	            	buttons[i][j].setIcon(icon);
+	            }
 	        }
 	    }
 	}
@@ -86,6 +89,8 @@ public class MikeSweeperGui implements ActionListener {
 		createIconsArray();
 
 		frmMikesweeper.setTitle("MikeSweeper");
+		ImageIcon img = new ImageIcon("resources/10x10.png");
+		frmMikesweeper.setIconImage(img.getImage());
 		frmMikesweeper.setBounds(100, 100, model.getSize() * 39 + 8, model.getSize() * 39 + 8);
 		frmMikesweeper.setResizable(false);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,6 +109,8 @@ public class MikeSweeperGui implements ActionListener {
 		
 		
 		JMenuItem mntmReset = new JMenuItem("Reset");
+		mntmReset.setName("reset");
+		mntmReset.addActionListener(this);
 		mnFile.add(mntmReset);
 		
 		JMenuItem mntmQuit = new JMenuItem("Quit");
@@ -142,9 +149,9 @@ public class MikeSweeperGui implements ActionListener {
     	//findButton(e.getSource());
     	if (o instanceof JMenuItem)
     	{
-    		if (((JMenuItem) o).getName() == "newGame")
+    		if (((JMenuItem) o).getName() == "reset")
     		{
-    		    initialize();
+    		    reset();
     		}
     	}
     	else if (o instanceof JButton)
@@ -163,13 +170,24 @@ public class MikeSweeperGui implements ActionListener {
     		{
     			clock.setText(String.format("%120d %s", timeElapsed, "Game Over"));
     		}
-    		timeElapsed++;
-    		clock.setText(String.format("%120d", timeElapsed));
+    		else{
+    			timeElapsed++;
+    			clock.setText(String.format("%120d", timeElapsed));
+    		}    		
     	}
         updateView();
 	}
 	
 	
+
+	private void reset()
+	{
+		Difficulty difficulty = model.getDifficulty();
+		model = new MikeSweeper(difficulty);
+		System.out.println(model);
+		timeElapsed = 0;
+		updateView();
+	}
 
 	// For later
 	public void findButton(Object source) {

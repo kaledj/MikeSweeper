@@ -13,6 +13,7 @@ public class MikeSweeper
     public MikeSweeper(Difficulty diff)
     {
         difficultySelect(diff);
+        difficulty = diff;
         setNumTouching(0);
         makeBoard(getSize());
         gameOver = false;
