@@ -17,12 +17,26 @@ public class MikeSweeper
         makeBoard(getSize());
         gameOver = false;
     }
-    
-    public void enumTest(Difficulty diff)
+    /**
+     * sets the difficulty.
+     * @param diff
+     */
+    public void setDifficulty(Difficulty diff)
     {
         this.difficulty = diff;
     }
-    
+    /**
+     * returns the difficulty.
+     * @return
+     */
+    public Difficulty getDifficulty()
+    {
+        return difficulty;
+    }
+    /**
+     * selects the difficulty and sets the size and mines.
+     * @param diff
+     */
     public void difficultySelect(Difficulty diff)
     {
         switch (diff) {
