@@ -33,8 +33,14 @@ public class MikeSweeperGui implements ActionListener {
 	private JMenuItem mntmNewGame;
 	private JButton[][] buttons;
 	private JLabel clock;
+	private JMenuBar menuBar;
+	private JMenuItem mntmQuit;
+	private JMenuItem mntmReset;
+	private JMenu mnFile;
+	
 	private int timeElapsed;
 	private boolean counting;
+	private Difficulty diff = Difficulty.MEDIUM;
 
 	/**
 	 * Launch the application.
@@ -87,17 +93,20 @@ public class MikeSweeperGui implements ActionListener {
 	 */
 	private void initialize() {
 		// Makes board, and sets buttons to things and stuff.
-		model = new MikeSweeper(Difficulty.MEDIUM);
+		model = new MikeSweeper(diff);
 		counting = false;
 		
 		dialog = new JDialog(frmMikesweeper, "Choose difficulty");
 		dialog.setSize(new Dimension(75, 75));
 		dialog.setLayout(new FlowLayout());
 		
+		
 		JButton easy = new JButton("Easy");
 		easy.setName("easy");
 		JButton med = new JButton("Medium");
+		med.setName("medium");
 		JButton hard = new JButton("Hard");
+		hard.setName("hard");
 		dialog.add(easy);
 		easy.setBounds(0, 0, 20, 10);
 		easy.addActionListener(this);
@@ -107,6 +116,7 @@ public class MikeSweeperGui implements ActionListener {
 		hard.addActionListener(this);
 		dialog.validate();
 		dialog.pack();
+		dialog.setLocationRelativeTo(frmMikesweeper);
 		
 		frmMikesweeper = new JFrame();
 		createButtonsArray();
@@ -116,32 +126,35 @@ public class MikeSweeperGui implements ActionListener {
 		ImageIcon img = new ImageIcon("resources/10x10.png");
 		frmMikesweeper.setIconImage(img.getImage());
 		frmMikesweeper.setBounds(100, 100, model.getSize() * 39 + 8, model.getSize() * 39 + 8);
-		frmMikesweeper.setResizable(false);
+		frmMikesweeper.setResizable(true);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMikesweeper.getContentPane().setLayout(new GridLayout(model.getSize(), model.getSize(), 0, 0));
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		frmMikesweeper.setJMenuBar(menuBar);
 		
-		JMenu mnFile = new JMenu("File");
+		mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		JMenuItem mntmNewGame = new JMenuItem("New Game");
+		mntmNewGame = new JMenuItem("New Game");
 		mntmNewGame.setName("newGame");
 		mntmNewGame.addActionListener(this);
 		mnFile.add(mntmNewGame);
 		
 		
-		JMenuItem mntmReset = new JMenuItem("Reset");
+		mntmReset = new JMenuItem("Reset");
 		mntmReset.setName("reset");
 		mntmReset.addActionListener(this);
 		mnFile.add(mntmReset);
 		
-		JMenuItem mntmQuit = new JMenuItem("Quit");
+		mntmQuit = new JMenuItem("Quit");
 		mnFile.add(mntmQuit);
 		
-		clock = new JLabel(String.format("%120d",  0));
+		clock = new JLabel(String.format("%10d",  0));
 		menuBar.add(clock);
+		
+		dialog.setLocationRelativeTo(frmMikesweeper);
+		frmMikesweeper.setVisible(true);
 				
 		System.out.println(model);
 	}
@@ -192,8 +205,32 @@ public class MikeSweeperGui implements ActionListener {
     		if (((JButton) o).getName() == "easy")
     		{
     			dialog.setVisible(false);
-    			System.out.println("dicks");
-    			model = new MikeSweeper(Difficulty.EASY);
+    			System.out.println("Easy printed");
+    			diff = Difficulty.EASY;
+    			frmMikesweeper.setVisible(false);
+    			model.setGameOver(false);
+    			timeElapsed = 0;
+    			initialize();
+    			updateView();
+    		}
+    		else if (((JButton) o).getName() == "medium")
+    		{
+    			dialog.setVisible(false);
+    			System.out.println("Medium printed");
+    			diff = Difficulty.MEDIUM;
+    			frmMikesweeper.setVisible(false);
+    			model.setGameOver(false);
+    			timeElapsed = 0;
+    			initialize();
+    			updateView();
+    		}
+    		else if (((JButton) o).getName() == "hard")
+    		{
+    			dialog.setVisible(false);
+    			System.out.println("Hard printed");
+    			diff = Difficulty.HARD;
+    			frmMikesweeper.setVisible(false);
+    			initialize();
     			updateView();
     		}
     		else
@@ -206,11 +243,11 @@ public class MikeSweeperGui implements ActionListener {
     	{
     		if (model.getGameOver())
     		{
-    			clock.setText(String.format("%120d %s", timeElapsed, "Game Over"));
+    			clock.setText(String.format("%10d %s", timeElapsed, "Game Over"));
     		}
     		else{
     			timeElapsed++;
-    			clock.setText(String.format("%120d", timeElapsed));
+    			clock.setText(String.format("%10d", timeElapsed));
     		}    		
     	}
         updateView();
