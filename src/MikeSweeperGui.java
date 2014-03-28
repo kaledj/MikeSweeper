@@ -207,6 +207,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			System.out.println("Easy printed");
     			diff = Difficulty.EASY;
+    			counting = false;
     			frmMikesweeper.setVisible(false);
     			model.setGameOver(false);
     			timeElapsed = 0;
@@ -218,6 +219,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			System.out.println("Medium printed");
     			diff = Difficulty.MEDIUM;
+    			counting = false;
     			frmMikesweeper.setVisible(false);
     			model.setGameOver(false);
     			timeElapsed = 0;
@@ -295,8 +297,11 @@ public class MikeSweeperGui implements ActionListener {
 	
 	private void count()
 	{
-		Timer timer = new Timer(1000, this);
-		timer.start();
+		if (counting)
+		{
+			Timer timer = new Timer(1000, this);
+			timer.start();
+		}
 	}
 
 }
