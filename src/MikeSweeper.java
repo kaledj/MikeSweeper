@@ -9,14 +9,25 @@ public class MikeSweeper
     private boolean[][] coveredBoard;
     private boolean gameOver;
     private Difficulty difficulty;
+    private int numMoves;
     
     public MikeSweeper(Difficulty diff)
     {
+        numMoves = 0;
         difficultySelect(diff);
         difficulty = diff;
         setNumTouching(0);
         makeBoard(getSize());
         gameOver = false;
+    }
+    /**
+     * gets the number of moves made.
+     * 
+     * @return moves
+     */
+    public int getNumMoves()
+    {
+        return numMoves;
     }
     /**
      * sets the difficulty.
@@ -101,7 +112,6 @@ public class MikeSweeper
     {
         board = new int[size][size];
         setNumTouching(0);
-        fillMines(size);
         fillTouchMines(size);
         coveredBoard = new boolean[size][size];
         for (int i = 0; i < size; i++)
@@ -168,8 +178,11 @@ public class MikeSweeper
     /**
      * randomly fills in the grid with mines.
      * 
+     * @param x is the x coor of first click
+     * @param y is the y coor of first click
+     * 
      */
-    public void fillMines(int size)
+    public void fillMines(int size, int x, int y)
     {
         Random random = new Random();
         int ranX;
@@ -179,13 +192,14 @@ public class MikeSweeper
         {
             ranX = random.nextInt(size);
             ranY = random.nextInt(size);
-            if (board[ranX][ranY] != 10)
+            if (board[ranX][ranY] != 10 && ranX != x && ranY != y)
             {
                 board[ranX][ranY] = 10;
                 numMines++;
             }
         }
     }
+    
     /**
      * fills in the cells that are next to a mine(s)
      * with the number of mine(s) it touches.
@@ -711,6 +725,11 @@ public class MikeSweeper
     
     public void clicked(int i, int j)
     {
+        numMoves++;
+        if (numMoves == 1)
+        {
+            fillMines(size, i, j);
+        }
         if(gameOver) return;
         int val = board[i][j];
         if(val == 0) {
