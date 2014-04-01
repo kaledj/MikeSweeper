@@ -149,6 +149,8 @@ public class MikeSweeperGui implements ActionListener {
 		mnFile.add(mntmReset);
 		
 		mntmQuit = new JMenuItem("Quit");
+		mntmQuit.setName("quit");
+		mntmQuit.addActionListener(this);
 		mnFile.add(mntmQuit);
 		
 		clock = new JLabel(String.format("%10d",  0));
@@ -194,6 +196,10 @@ public class MikeSweeperGui implements ActionListener {
     		else if (((JMenuItem) o).getName() == "newGame")
     		{
     			newGame();
+    		}
+    		else if (((JMenuItem) o).getName() == "quit")
+    		{
+    			System.exit(0);
     		}
     	}
     	else if (o instanceof JButton)
@@ -241,6 +247,7 @@ public class MikeSweeperGui implements ActionListener {
     			initialize();
     			updateView();
     		}
+    		
     		else
     		{
     		int[] clicked = getButtonClicked((JButton)o);
