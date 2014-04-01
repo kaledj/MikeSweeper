@@ -37,6 +37,7 @@ public class MikeSweeperGui implements ActionListener {
 	private JMenuItem mntmQuit;
 	private JMenuItem mntmReset;
 	private JMenu mnFile;
+	private Timer timer;
 	
 	private int timeElapsed;
 	private boolean counting;
@@ -207,10 +208,11 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			System.out.println("Easy printed");
     			diff = Difficulty.EASY;
-    			counting = false;
     			frmMikesweeper.setVisible(false);
     			model.setGameOver(false);
     			timeElapsed = 0;
+    			counting = false;
+    			timer.stop();
     			initialize();
     			updateView();
     		}
@@ -219,10 +221,11 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			System.out.println("Medium printed");
     			diff = Difficulty.MEDIUM;
-    			counting = false;
     			frmMikesweeper.setVisible(false);
     			model.setGameOver(false);
     			timeElapsed = 0;
+    			counting = false;
+    			timer.stop();
     			initialize();
     			updateView();
     		}
@@ -232,6 +235,9 @@ public class MikeSweeperGui implements ActionListener {
     			System.out.println("Hard printed");
     			diff = Difficulty.HARD;
     			frmMikesweeper.setVisible(false);
+    			timeElapsed = 0;
+    			counting = false;
+    			timer.stop();
     			initialize();
     			updateView();
     		}
@@ -262,11 +268,15 @@ public class MikeSweeperGui implements ActionListener {
 		model.coverAll();
 		model.setGameOver(false);
 		timeElapsed = 0;
+		counting = false;
+		timer.stop();
+		clock.setText(String.format("%10d", timeElapsed));
 		updateView();
 	}
 	
 	private void newGame()
 	{
+		
 		dialog.setVisible(true);
 	}
 
@@ -299,7 +309,7 @@ public class MikeSweeperGui implements ActionListener {
 	{
 		if (counting)
 		{
-			Timer timer = new Timer(1000, this);
+			timer = new Timer(1000, this);
 			timer.start();
 		}
 	}
