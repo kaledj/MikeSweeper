@@ -7,6 +7,7 @@ public class MikeSweeper
     private int maxMines; 
     private int numTouching;
     private boolean[][] coveredBoard;
+    public boolean[][] flagged;
     private boolean gameOver;
     private Difficulty difficulty;
     private int numMoves;
@@ -116,11 +117,13 @@ public class MikeSweeper
         fillMines(size, x, y);
         fillTouchMines(size);
         coveredBoard = new boolean[size][size];
+        flagged = new boolean[size][size];
         for (int i = 0; i < size; i++)
         {
             for (int j = 0; j < size; j++)
             {
                 coveredBoard[i][j] = true;
+                flagged[i][j] = false;
             }
         }
     }
@@ -128,6 +131,7 @@ public class MikeSweeper
     {
     	return board;
     }
+    
     /**
      * sets size.
      */
@@ -775,6 +779,14 @@ public class MikeSweeper
 		for(int i = 0; i < coveredBoard.length; i++) {
 			for(int j = 0; j < coveredBoard[i].length; j++) {
 				coveredBoard[i][j] = true;
+			}
+		}
+		
+	}
+	public void unflagAll() {
+		for(int i = 0; i < flagged.length; i++) {
+			for(int j = 0; j < flagged[i].length; j++) {
+				flagged[i][j] = false;
 			}
 		}
 		

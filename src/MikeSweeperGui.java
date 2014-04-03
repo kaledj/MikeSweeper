@@ -13,17 +13,18 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class MikeSweeperGui implements ActionListener {
 	
     Icon icon = new ImageIcon("resources/10x10.png");
+    Icon flag = new ImageIcon("resources/flag.png");
     Icon blankIcon = new ImageIcon("resources/blank.png");
 	Icon iconEx = new ImageIcon("resources/10x10ex.png");
 	Icon quest = new ImageIcon("resources/quest.png");
@@ -84,6 +85,10 @@ public class MikeSweeperGui implements ActionListener {
                     } else {
     	                buttons[i][j].setIcon(numberIcons[val]);
     	            }
+	            }
+	            else if(model.flagged[i][j]) 
+	            {
+	            	buttons[i][j].setIcon(flag);
 	            }
 	            else {
 	            	buttons[i][j].setIcon(icon);
@@ -175,6 +180,9 @@ public class MikeSweeperGui implements ActionListener {
                 ij.setContentAreaFilled(false);
                 ij.setBorderPainted(false);
                 ij.addActionListener(this);
+                
+                ij.addMouseListener(new RightClickListener(ij));
+                
                 frmMikesweeper.getContentPane().add(new JPanel().add(ij));
                 buttons[i][j] = ij;
             }
@@ -253,8 +261,10 @@ public class MikeSweeperGui implements ActionListener {
     		
     		else
     		{
-    		int[] clicked = getButtonClicked((JButton)o);
-    		model.clicked(clicked[0], clicked[1]);
+    			int[] clicked = getButtonClicked((JButton)o);
+    			if(!model.flagged[clicked[0]][clicked[1]]) {
+        			model.clicked(clicked[0], clicked[1]);
+    			}
     		}
     	}
     	else if (o instanceof Timer) 
@@ -276,6 +286,7 @@ public class MikeSweeperGui implements ActionListener {
 	private void reset()
 	{
 		model.coverAll();
+		model.unflagAll();
 		model.setGameOver(false);
 		timeElapsed = 0;
 		counting = false;
@@ -323,5 +334,54 @@ public class MikeSweeperGui implements ActionListener {
 			timer.start();
 		}
 	}
-
+	
+	private class RightClickListener extends MouseAdapter 
+	{
+		private JButton button;
+		private boolean pressed;
+		
+		public RightClickListener(JButton button)
+		{
+			this.button = button;
+		}
+		
+		
+		@Override
+        public void mousePressed(MouseEvent e) {
+            if(!counting || model.getGameOver()) return;
+			button.getModel().setArmed(true);
+            button.getModel().setPressed(true);
+            pressed = true;
+        }
+		
+		@Override
+        public void mouseReleased(MouseEvent e) {
+            if(!counting || model.getGameOver()) return;
+            button.getModel().setArmed(false);
+            button.getModel().setPressed(false);
+            if (pressed) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    int[] clicked = getButtonClicked(button);
+                    if(model.getCovered(clicked[0], clicked[1])) 
+                    {
+                    	if(model.flagged[clicked[0]][clicked[1]]) 
+                    	{
+                    		button.setIcon(icon);
+                    	}
+                    	else
+                    	{
+                    		button.setIcon(flag);
+                    	}
+                    	model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
+                    }                    
+                }
+                else {
+                    button.setIcon(button.getIcon());
+                }
+            }
+            pressed = false;
+        }
+	}
 }
+
+
