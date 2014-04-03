@@ -792,7 +792,6 @@ public class MikeSweeper
 		
 	}
 	public boolean gameWon() {
-	    int minesFlagged = 0;
 	    int everythingUncovered = 0;
 	    for (int i = 0; i < size; i++)
 	    {
@@ -802,12 +801,8 @@ public class MikeSweeper
 	            {
 	                everythingUncovered++;
 	            }
-	            if(board[i][j] == 10 && flagged[i][j] == true)
-	            {
-	                minesFlagged++;
-	            }
 	        }
 	    }
-	    return (minesFlagged == maxMines || everythingUncovered == ((size * size) - maxMines));
+	    return (everythingUncovered == ((size * size) - maxMines));
 	}
 }
