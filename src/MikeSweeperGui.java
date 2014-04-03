@@ -44,6 +44,7 @@ public class MikeSweeperGui implements ActionListener {
 	private Timer timer;
 	
 	private int timeElapsed;
+	private int flags;
 	private boolean counting;
 	private Difficulty diff = Difficulty.EASY;
 
@@ -104,7 +105,7 @@ public class MikeSweeperGui implements ActionListener {
 		// Makes board, and sets buttons to things and stuff.
 		model = new MikeSweeper(diff,1,3);
 		counting = false;
-		
+		flags = 0;
 		dialog = new JDialog(frmMikesweeper, "Choose difficulty");
 		dialog.setSize(new Dimension(75, 75));
 		dialog.setLayout(new FlowLayout());
@@ -367,10 +368,12 @@ public class MikeSweeperGui implements ActionListener {
                     	if(model.flagged[clicked[0]][clicked[1]]) 
                     	{
                     		button.setIcon(icon);
+                    		flags--;
                     	}
                     	else
                     	{
                     		button.setIcon(flag);
+                    		flags++;
                     	}
                     	model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
                     }                    
