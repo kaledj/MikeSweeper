@@ -11,6 +11,7 @@ public class MikeSweeper
     private boolean gameOver;
     private Difficulty difficulty;
     private int numMoves;
+    private boolean gameWon;
     
     public MikeSweeper(Difficulty diff, int x, int y)
     {
@@ -20,6 +21,7 @@ public class MikeSweeper
         setNumTouching(0);
         makeBoard(getSize(), x, y);
         gameOver = false;
+        gameWon = false;
         numMoves++;
     }
     /**
@@ -736,7 +738,7 @@ public class MikeSweeper
         {
             fillMines(size, i, j);
         }
-        if(gameOver) return;
+        if(gameOver || gameWon) return;
         int val = board[i][j];
         if(val == 0) {
             revealZeros(i, j);
@@ -746,6 +748,7 @@ public class MikeSweeper
         } else {
             uncover(i, j);
         }
+        gameWon = gameWon();
     }
     
     private void revealMines()
@@ -765,6 +768,16 @@ public class MikeSweeper
     	return gameOver;
     }
 
+    public boolean getGameWon()
+    {
+    	return gameWon;
+    }
+    
+    public void setGameWon(boolean gameWon)
+    {
+    	this.gameWon = gameWon;
+    }
+    
     public static void main(String[] args)
     {
         MikeSweeper test = new MikeSweeper(Difficulty.EASY, 0, 0);

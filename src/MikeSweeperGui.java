@@ -277,22 +277,27 @@ public class MikeSweeperGui implements ActionListener {
     		{
     			clock.setText(String.format("%10d %s", timeElapsed, "Game Over"));
     		}
-    		else{
+    		else if (model.getGameWon())
+    		{
+    			clock.setText(String.format("%10d %s", timeElapsed, "YOU WIN :D"));
+    		}
+    		else
+    		{
     			timeElapsed++;
     			clock.setText(String.format("%10d", timeElapsed));
     		}    		
     	}
         updateView();
 	}
-	
-	
 
 	private void reset()
 	{
 		model.coverAll();
 		model.unflagAll();
 		model.setGameOver(false);
+		model.setGameWon(false);
 		timeElapsed = 0;
+		flags = 0;
 		counting = false;
 		timer.stop();
 		clock.setText(String.format("%10d", timeElapsed));
@@ -366,19 +371,20 @@ public class MikeSweeperGui implements ActionListener {
             if (pressed) {
                 if (SwingUtilities.isRightMouseButton(e)) {
                     int[] clicked = getButtonClicked(button);
-                    if(model.getCovered(clicked[0], clicked[1])) 
+                    if(model.getCovered(clicked[0], clicked[1]) && !model.getGameWon()) 
                     {
                     	if(model.flagged[clicked[0]][clicked[1]]) 
                     	{
                     		button.setIcon(icon);
                     		flags--;
+                    		model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
                     	}
                     	else if (flags < model.getMines())
                     	{
                     		button.setIcon(flag);
                     		flags++;
-                    	}
-                    	model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
+                    		model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
+                    	}                    	
                     }                    
                 }
                 else {
