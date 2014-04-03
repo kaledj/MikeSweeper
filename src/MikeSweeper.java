@@ -11,14 +11,15 @@ public class MikeSweeper
     private Difficulty difficulty;
     private int numMoves;
     
-    public MikeSweeper(Difficulty diff)
+    public MikeSweeper(Difficulty diff, int x, int y)
     {
         numMoves = 0;
         difficultySelect(diff);
         difficulty = diff;
         setNumTouching(0);
-        makeBoard(getSize());
+        makeBoard(getSize(), x, y);
         gameOver = false;
+        numMoves++;
     }
     /**
      * gets the number of moves made.
@@ -108,10 +109,11 @@ public class MikeSweeper
      * creates the board.
      * 
      */
-    public void makeBoard(int size)
+    public void makeBoard(int size, int x, int y)
     {
         board = new int[size][size];
         setNumTouching(0);
+        fillMines(size, x, y);
         fillTouchMines(size);
         coveredBoard = new boolean[size][size];
         for (int i = 0; i < size; i++)
@@ -761,7 +763,7 @@ public class MikeSweeper
 
     public static void main(String[] args)
     {
-        MikeSweeper test = new MikeSweeper(Difficulty.EASY);
+        MikeSweeper test = new MikeSweeper(Difficulty.EASY, 0, 0);
         System.out.println(test);
     }
     
