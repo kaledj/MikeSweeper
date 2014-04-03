@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
@@ -11,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -41,7 +44,7 @@ public class MikeSweeperGui implements ActionListener {
 	
 	private int timeElapsed;
 	private boolean counting;
-	private Difficulty diff = Difficulty.MEDIUM;
+	private Difficulty diff = Difficulty.EASY;
 
 	/**
 	 * Launch the application.
@@ -94,7 +97,7 @@ public class MikeSweeperGui implements ActionListener {
 	 */
 	private void initialize() {
 		// Makes board, and sets buttons to things and stuff.
-		model = new MikeSweeper(diff);
+		model = new MikeSweeper(diff,1,3);
 		counting = false;
 		
 		dialog = new JDialog(frmMikesweeper, "Choose difficulty");
@@ -212,7 +215,6 @@ public class MikeSweeperGui implements ActionListener {
     		if (((JButton) o).getName() == "easy")
     		{
     			dialog.setVisible(false);
-    			System.out.println("Easy printed");
     			diff = Difficulty.EASY;
     			frmMikesweeper.setVisible(false);
     			model.setGameOver(false);
@@ -225,7 +227,6 @@ public class MikeSweeperGui implements ActionListener {
     		else if (((JButton) o).getName() == "medium")
     		{
     			dialog.setVisible(false);
-    			System.out.println("Medium printed");
     			diff = Difficulty.MEDIUM;
     			frmMikesweeper.setVisible(false);
     			model.setGameOver(false);
@@ -238,7 +239,6 @@ public class MikeSweeperGui implements ActionListener {
     		else if (((JButton) o).getName() == "hard")
     		{
     			dialog.setVisible(false);
-    			System.out.println("Hard printed");
     			diff = Difficulty.HARD;
     			frmMikesweeper.setVisible(false);
     			timeElapsed = 0;
