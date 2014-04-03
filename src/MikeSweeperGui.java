@@ -129,8 +129,8 @@ public class MikeSweeperGui implements ActionListener {
 		frmMikesweeper.setTitle("MikeSweeper");
 		ImageIcon img = new ImageIcon("resources/10x10.png");
 		frmMikesweeper.setIconImage(img.getImage());
-		frmMikesweeper.setBounds(100, 100, model.getSize() * 39 + 8, model.getSize() * 39 + 8);
-		frmMikesweeper.setResizable(true);
+		frmMikesweeper.setBounds(100, 100, model.getSize() * 44, model.getSize() * 50);
+		frmMikesweeper.setResizable(false);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMikesweeper.getContentPane().setLayout(new GridLayout(model.getSize(), model.getSize(), 0, 0));
 		
@@ -171,6 +171,9 @@ public class MikeSweeperGui implements ActionListener {
 	    for (int i = 0; i < model.getSize(); i++) {
             for (int j = 0; j < model.getSize(); j++) {
                 JButton ij = new JButton(icon);
+                ij.setOpaque(false);
+                ij.setContentAreaFilled(false);
+                ij.setBorderPainted(false);
                 ij.addActionListener(this);
                 frmMikesweeper.getContentPane().add(new JPanel().add(ij));
                 buttons[i][j] = ij;
