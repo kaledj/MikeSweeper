@@ -89,7 +89,10 @@ public class MikeSweeperGui implements ActionListener {
 	            }
 	            else if(model.flagged[i][j]) 
 	            {
-	            	buttons[i][j].setIcon(flag);
+	            	if (flags < model.getMines())
+	            	{
+	            		buttons[i][j].setIcon(flag);
+	            	}
 	            }
 	            else {
 	            	buttons[i][j].setIcon(icon);
@@ -370,7 +373,7 @@ public class MikeSweeperGui implements ActionListener {
                     		button.setIcon(icon);
                     		flags--;
                     	}
-                    	else
+                    	else if (flags < model.getMines())
                     	{
                     		button.setIcon(flag);
                     		flags++;
