@@ -109,11 +109,13 @@ public class MikeSweeperGui implements ActionListener {
 		model = new MikeSweeper(diff,1,3);
 		counting = false;
 		flags = 0;
-		dialog = new JDialog(frmMikesweeper, "Choose difficulty");
+		
+        //New game dialog box
+		dialog = new JDialog(frmMikesweeper, "Play again?");
 		dialog.setSize(new Dimension(75, 75));
 		dialog.setLayout(new FlowLayout());
-		
-		
+		JLabel playLabel = new JLabel("Choose difficulty:");
+		dialog.add(playLabel);
 		JButton easy = new JButton("Easy");
 		easy.setName("easy");
 		JButton med = new JButton("Medium");
@@ -129,7 +131,6 @@ public class MikeSweeperGui implements ActionListener {
 		hard.addActionListener(this);
 		dialog.validate();
 		dialog.pack();
-		dialog.setLocationRelativeTo(frmMikesweeper);
 		
 		frmMikesweeper = new JFrame();
 		createButtonsArray();
@@ -167,10 +168,10 @@ public class MikeSweeperGui implements ActionListener {
 		
 		clock = new JLabel(String.format("%10d",  0));
 		menuBar.add(clock);
-		
-		dialog.setLocationRelativeTo(frmMikesweeper);
+
 		frmMikesweeper.setVisible(true);
-				
+		dialog.setLocationRelativeTo(frmMikesweeper);	
+		
 		System.out.println(model);
 	}
 
@@ -182,11 +183,9 @@ public class MikeSweeperGui implements ActionListener {
                 JButton ij = new JButton(icon);
                 ij.setOpaque(false);
                 ij.setContentAreaFilled(false);
-                ij.setBorderPainted(false);
+                ij.setBorderPainted(true);
                 ij.addActionListener(this);
-                
                 ij.addMouseListener(new RightClickListener(ij));
-                
                 frmMikesweeper.getContentPane().add(new JPanel().add(ij));
                 buttons[i][j] = ij;
             }
@@ -198,7 +197,6 @@ public class MikeSweeperGui implements ActionListener {
         for(int i = 0; i < numberIcons.length; i++) {
             numberIcons[i] = new ImageIcon("resources/" + i + ".png");
         }
-        
     }
 
     @Override
@@ -262,7 +260,6 @@ public class MikeSweeperGui implements ActionListener {
     			initialize();
     			updateView();
     		}
-    		
     		else
     		{
     			int[] clicked = getButtonClicked((JButton)o);
@@ -275,11 +272,12 @@ public class MikeSweeperGui implements ActionListener {
     	{
     		if (model.getGameOver())
     		{
-    			clock.setText(String.format("%10d %s", timeElapsed, "Game Over"));
+    			clock.setText(String.format("%10d %s", timeElapsed, "Game Over!"));
     		}
     		else if (model.getGameWon())
     		{
-    			clock.setText(String.format("%10d %s", timeElapsed, "YOU WIN :D"));
+    			clock.setText(String.format("%10d %s", timeElapsed, "You win!"));
+    			dialog.setVisible(true);
     		}
     		else
     		{
@@ -395,5 +393,4 @@ public class MikeSweeperGui implements ActionListener {
         }
 	}
 }
-
 
