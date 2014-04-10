@@ -43,9 +43,9 @@ public class MikeSweeper
                 }
             }
         }
-        double[][] bb = new double[unCovered][1];
+        double[][] bb = new double[unCovered + 1][1];
         int k = 0;
-        double[][] AA = new double[unCovered][size * size];
+        double[][] AA = new double[unCovered + 1][size * size];
         double[] temp;
 
         int ii = 0;
@@ -65,6 +65,11 @@ public class MikeSweeper
                     ii++;
                 }
             }
+        }
+        bb[unCovered][1] = maxMines;
+        for (int i = 0; i < size * size; i++)
+        {
+            AA[unCovered][i] = 1;
         }
         Matrix b = new Matrix(bb);
         Matrix A = new Matrix(AA);
