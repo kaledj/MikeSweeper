@@ -2,6 +2,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -47,6 +48,7 @@ public class MikeSweeperGui implements ActionListener {
 	private int flags;
 	private boolean counting;
 	private Difficulty diff = Difficulty.EASY;
+	private JLabel lblFlags;
 
 	/**
 	 * Launch the application.
@@ -113,21 +115,21 @@ public class MikeSweeperGui implements ActionListener {
         //New game dialog box
 		dialog = new JDialog(frmMikesweeper, "Play again?");
 		dialog.setSize(new Dimension(75, 75));
-		dialog.setLayout(new FlowLayout());
+		dialog.getContentPane().setLayout(new FlowLayout());
 		JLabel playLabel = new JLabel("Choose difficulty:");
-		dialog.add(playLabel);
+		dialog.getContentPane().add(playLabel);
 		JButton easy = new JButton("Easy");
 		easy.setName("easy");
 		JButton med = new JButton("Medium");
 		med.setName("medium");
 		JButton hard = new JButton("Hard");
 		hard.setName("hard");
-		dialog.add(easy);
+		dialog.getContentPane().add(easy);
 		easy.setBounds(0, 0, 20, 10);
 		easy.addActionListener(this);
-		dialog.add(med);
+		dialog.getContentPane().add(med);
 		med.addActionListener(this);
-		dialog.add(hard);
+		dialog.getContentPane().add(hard);
 		hard.addActionListener(this);
 		dialog.validate();
 		dialog.pack();
@@ -139,7 +141,18 @@ public class MikeSweeperGui implements ActionListener {
 		frmMikesweeper.setTitle("MikeSweeper");
 		ImageIcon img = new ImageIcon("resources/10x10.png");
 		frmMikesweeper.setIconImage(img.getImage());
-		frmMikesweeper.setBounds(100, 100, model.getSize() * 44, model.getSize() * 50);
+		if (diff == diff.EASY)
+		{
+			frmMikesweeper.setBounds(100, 100, model.getSize() * 40, model.getSize() * 50);
+		}
+		else if (diff == diff.MEDIUM)
+		{
+			frmMikesweeper.setBounds(100, 100, model.getSize() * 35, model.getSize() * 40);
+		}
+		else if (diff == diff.HARD)
+		{
+			frmMikesweeper.setBounds(100, 100, model.getSize() * 25, model.getSize() * 30);
+		}
 		frmMikesweeper.setResizable(false);
 		frmMikesweeper.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMikesweeper.getContentPane().setLayout(new GridLayout(model.getSize(), model.getSize(), 0, 0));
@@ -168,6 +181,9 @@ public class MikeSweeperGui implements ActionListener {
 		
 		clock = new JLabel(String.format("%10d",  0));
 		menuBar.add(clock);
+		
+		lblFlags = new JLabel("Flags:");
+		menuBar.add(lblFlags);
 
 		frmMikesweeper.setVisible(true);
 		dialog.setLocationRelativeTo(frmMikesweeper);	
@@ -196,6 +212,15 @@ public class MikeSweeperGui implements ActionListener {
     {
         for(int i = 0; i < numberIcons.length; i++) {
             numberIcons[i] = new ImageIcon("resources/" + i + ".png");
+            if (diff == diff.HARD)
+            {
+            	Image scaleImage = ((ImageIcon) numberIcons[i]).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
+            	numberIcons[i] = new ImageIcon(scaleImage);
+            	
+            	Image scaleImageTwo = ((ImageIcon) icon).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
+            	icon = new ImageIcon(scaleImageTwo);
+            }
+            
         }
     }
 
@@ -273,6 +298,7 @@ public class MikeSweeperGui implements ActionListener {
     		if (model.getGameOver())
     		{
     			clock.setText(String.format("%10d %s", timeElapsed, "Game Over!"));
+    			dialog.setVisible(true);
     		}
     		else if (model.getGameWon())
     		{
