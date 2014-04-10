@@ -1,10 +1,11 @@
 import java.util.Random;
+import Jama.*;
 
 public class MikeSweeper
 {
     private int size;
     private int[][] board;
-    private int maxMines; 
+    private int maxMines;
     private int numTouching;
     private boolean[][] coveredBoard;
     public boolean[][] flagged;
@@ -12,7 +13,7 @@ public class MikeSweeper
     private Difficulty difficulty;
     private int numMoves;
     private boolean gameWon;
-    
+
     public MikeSweeper(Difficulty diff, int x, int y)
     {
         numMoves = 0;
@@ -25,6 +26,92 @@ public class MikeSweeper
         numMoves++;
     }
     /**
+     * testing matrix
+     * 
+     * @return
+     */
+    public int[] testMatrix()
+    {
+        int unCovered = 0;
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (!coveredBoard[i][j])
+                {
+                    unCovered++;
+                }
+            }
+        }
+        double[][] bb = new double[unCovered][1];
+        int k = 0;
+        double[][] AA = new double[unCovered][size * size];
+        double[] temp;
+
+        int ii = 0;
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (!coveredBoard[i][j])
+                {
+                    bb[k][1] = board[i][j];
+                    k++;
+                    temp = createRowNA(size, i, j);
+                    for (int jj = 0; jj < size * size; jj++)
+                    {
+                        AA[ii][jj] = temp[jj];
+                    }
+                    ii++;
+                }
+            }
+        }
+        Matrix b = new Matrix(bb);
+        Matrix A = new Matrix(AA);
+
+        Matrix x = A.solve(b);
+        double lowest = Double.POSITIVE_INFINITY;
+        int indexLow = -1;
+        for (int i = 0; i < size * size; i++)
+        {
+            if (x.get(i, 1) < lowest)
+            {
+                lowest = x.get(i,  1);
+                indexLow = i;
+            }
+        }
+        
+        return new int[] {indexLow / size, indexLow % size}; 
+    }
+
+    /**
+     * createRowNA
+     */
+    public double[] createRowNA(int size, int i, int j)
+    {
+        double[] temp = new double[size * size];
+        int k = 0;
+        for (int ii = i - 1; ii <= i + 1; ii++)
+        {
+            for (int jj = j - 1; jj <= j + 1; jj++)
+            {
+                if (ii >= 0 && ii < size)
+                {
+                    if (jj >= 0 && jj < size)
+                    {
+                        if (coveredBoard[ii][jj])
+                        {
+                            k = jj + (ii * size);
+                            temp[k] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        return temp;
+    }
+
+    /**
      * gets the number of moves made.
      * 
      * @return moves
@@ -33,44 +120,51 @@ public class MikeSweeper
     {
         return numMoves;
     }
+
     /**
      * sets the difficulty.
+     * 
      * @param diff
      */
     public void setDifficulty(Difficulty diff)
     {
         this.difficulty = diff;
     }
+
     /**
      * returns the difficulty.
+     * 
      * @return
      */
     public Difficulty getDifficulty()
     {
         return difficulty;
     }
+
     /**
      * selects the difficulty and sets the size and mines.
+     * 
      * @param diff
      */
     public void difficultySelect(Difficulty diff)
     {
-        switch (diff) {
+        switch (diff)
+        {
             case EASY:
                 setSize(9);
                 setMines(10);
                 break;
-                    
+
             case MEDIUM:
                 setSize(16);
                 setMines(40);
                 break;
-                         
+
             case HARD:
                 setSize(20);
                 setMines(99);
                 break;
-                        
+
             case CUSTOM:
                 try
                 {
@@ -78,17 +172,19 @@ public class MikeSweeper
                 }
                 catch (IllegalArgumentException e)
                 {
-                    System.out.println("Number of mines must be between 10 to " + ((size * size) - 1));
+                    System.out.println("Number of mines must be between 10 to "
+                            + ((size * size) - 1));
                     difficultySelect(diff);
                 }
                 break;
-                
+
             default:
                 setSize(16);
                 setMines(40);
                 break;
         }
     }
+
     /**
      * makes a custom board.
      */
@@ -108,6 +204,7 @@ public class MikeSweeper
             throw new IllegalArgumentException("Too few mines.");
         }
     }
+
     /**
      * creates the board.
      * 
@@ -129,11 +226,12 @@ public class MikeSweeper
             }
         }
     }
+
     public int[][] getBoard()
     {
-    	return board;
+        return board;
     }
-    
+
     /**
      * sets size.
      */
@@ -141,6 +239,7 @@ public class MikeSweeper
     {
         this.size = size;
     }
+
     /**
      * returns size.
      */
@@ -148,6 +247,7 @@ public class MikeSweeper
     {
         return size;
     }
+
     /**
      * sets max mines.
      */
@@ -155,6 +255,7 @@ public class MikeSweeper
     {
         this.maxMines = mines;
     }
+
     /**
      * returns max mines.
      */
@@ -162,6 +263,7 @@ public class MikeSweeper
     {
         return this.maxMines;
     }
+
     /**
      * sets numTouching.
      */
@@ -169,6 +271,7 @@ public class MikeSweeper
     {
         numTouching = num;
     }
+
     /**
      * returns the numTouching.
      */
@@ -176,6 +279,7 @@ public class MikeSweeper
     {
         return numTouching;
     }
+
     /**
      * returns the boolean in covered.
      */
@@ -183,11 +287,14 @@ public class MikeSweeper
     {
         return coveredBoard[i][j];
     }
+
     /**
      * randomly fills in the grid with mines.
      * 
-     * @param x is the x coor of first click
-     * @param y is the y coor of first click
+     * @param x
+     *            is the x coor of first click
+     * @param y
+     *            is the y coor of first click
      * 
      */
     public void fillMines(int size, int x, int y)
@@ -207,10 +314,10 @@ public class MikeSweeper
             }
         }
     }
-    
+
     /**
-     * fills in the cells that are next to a mine(s)
-     * with the number of mine(s) it touches.
+     * fills in the cells that are next to a mine(s) with the number of mine(s)
+     * it touches.
      */
     public void fillTouchMines(int size)
     {
@@ -221,13 +328,14 @@ public class MikeSweeper
         setNumTouching(0);
         fillRest(size);
     }
+
     /**
      * fills in the corners.
      */
     public void fillCorners(int size)
     {
         setNumTouching(0);
-        if (board[0][0] != 10) //top-left corner
+        if (board[0][0] != 10) // top-left corner
         {
             if (board[0][1] == 10)
                 setNumTouching(getNumTouching() + 1);
@@ -238,7 +346,7 @@ public class MikeSweeper
             board[0][0] = getNumTouching();
         }
         setNumTouching(0);
-        if (board[0][size - 1] != 10) //top-right corner
+        if (board[0][size - 1] != 10) // top-right corner
         {
             if (board[0][size - 2] == 10)
                 setNumTouching(getNumTouching() + 1);
@@ -249,7 +357,7 @@ public class MikeSweeper
             board[0][size - 1] = getNumTouching();
         }
         setNumTouching(0);
-        if (board[size - 1][0] != 10) //bottom-left corner
+        if (board[size - 1][0] != 10) // bottom-left corner
         {
             if (board[size - 2][0] == 10)
                 setNumTouching(getNumTouching() + 1);
@@ -260,7 +368,7 @@ public class MikeSweeper
             board[size - 1][0] = getNumTouching();
         }
         setNumTouching(0);
-        if (board[size - 1][size - 1] != 10) //bottom-right corner
+        if (board[size - 1][size - 1] != 10) // bottom-right corner
         {
             if (board[size - 2][size - 1] == 10)
                 setNumTouching(getNumTouching() + 1);
@@ -272,6 +380,7 @@ public class MikeSweeper
         }
         setNumTouching(0);
     }
+
     /**
      * fills in each side.
      * 
@@ -279,7 +388,7 @@ public class MikeSweeper
     public void fillSides(int size)
     {
         setNumTouching(0);
-        for (int j = 1; j < size - 1; j++) //top row
+        for (int j = 1; j < size - 1; j++) // top row
         {
             if (board[0][j] != 10)
             {
@@ -299,7 +408,7 @@ public class MikeSweeper
             setNumTouching(0);
         }
         setNumTouching(0);
-        for (int j = 1; j < size - 1; j++) //bottom row
+        for (int j = 1; j < size - 1; j++) // bottom row
         {
             if (board[size - 1][j] != 10)
             {
@@ -319,7 +428,7 @@ public class MikeSweeper
             setNumTouching(0);
         }
         setNumTouching(0);
-        for (int i = 1; i < size - 1; i++) //left side
+        for (int i = 1; i < size - 1; i++) // left side
         {
             if (board[i][0] != 10)
             {
@@ -339,7 +448,7 @@ public class MikeSweeper
             setNumTouching(0);
         }
         setNumTouching(0);
-        for (int i = 1; i < size - 1; i++) //right side
+        for (int i = 1; i < size - 1; i++) // right side
         {
             if (board[i][size - 1] != 10)
             {
@@ -360,6 +469,7 @@ public class MikeSweeper
         }
         setNumTouching(0);
     }
+
     /**
      * fills the rest of the board.
      * 
@@ -374,7 +484,7 @@ public class MikeSweeper
                 setNumTouching(0);
                 if (board[i][j] != 10)
                 {
-                    
+
                     checkAbove(i, j);
                     checkBelow(i, j);
                     checkSides(i, j);
@@ -386,6 +496,7 @@ public class MikeSweeper
         }
         setNumTouching(0);
     }
+
     /**
      * checks the three spots above.
      * 
@@ -398,6 +509,7 @@ public class MikeSweeper
                 setNumTouching(getNumTouching() + 1);
         }
     }
+
     /**
      * checks the three spots below.
      * 
@@ -410,6 +522,7 @@ public class MikeSweeper
                 setNumTouching(getNumTouching() + 1);
         }
     }
+
     /**
      * checks left and right
      * 
@@ -421,14 +534,15 @@ public class MikeSweeper
         if (board[i][j + 1] == 10)
             setNumTouching(getNumTouching() + 1);
     }
+
     /**
-     * uncovers the button clicked.
-     * false means uncovered. true means covered
+     * uncovers the button clicked. false means uncovered. true means covered
      */
     public void uncover(int i, int j)
     {
         coveredBoard[i][j] = false;
     }
+
     /**
      * returns all adjacent 0s of the one clicked.
      */
@@ -436,30 +550,37 @@ public class MikeSweeper
     {
         uncover(i, j);
         // Reveal all hidden, adjacent zeros and their adjacent squares
-        for(int ii = i-1; ii <= i+1; ii++) {
-            for(int jj = j-1; jj <= j+1; jj++) {
-                if(ii >= 0 && ii < size) {
-                    if(jj >= 0 && jj < size) {
-                        if(coveredBoard[ii][jj]) {
-                            if(board[ii][jj] == 0) {
+        for (int ii = i - 1; ii <= i + 1; ii++)
+        {
+            for (int jj = j - 1; jj <= j + 1; jj++)
+            {
+                if (ii >= 0 && ii < size)
+                {
+                    if (jj >= 0 && jj < size)
+                    {
+                        if (coveredBoard[ii][jj])
+                        {
+                            if (board[ii][jj] == 0)
+                            {
                                 revealZeros(ii, jj);
-                            } 
-                            else if(board[ii][jj] != 10) {
+                            }
+                            else if (board[ii][jj] != 10)
+                            {
                                 uncover(ii, jj);
                             }
                         }
                     }
                 }
             }
-        }    
+        }
     }
-    
+
     /**
      * helper method for revealZero, for corner buttons.
      */
     public void cornerRevealZeros(int i, int j)
     {
-        if (i == 0 && j == 0) //top-left corner
+        if (i == 0 && j == 0) // top-left corner
         {
             uncover(i, j + 1);
             uncover(i + 1, j);
@@ -478,14 +599,14 @@ public class MikeSweeper
             }
             return;
         }
-        if (i == 0 && j == size - 1) //top-right corner
+        if (i == 0 && j == size - 1) // top-right corner
         {
             uncover(i, j - 1);
             uncover(i + 1, j - 1);
             uncover(i + 1, j);
             if (board[i][j - 1] == 0)
             {
-                revealZeros(i, j -1);
+                revealZeros(i, j - 1);
             }
             else if (board[i + 1][j - 1] == 0)
             {
@@ -497,7 +618,7 @@ public class MikeSweeper
             }
             return;
         }
-        if (i == size - 1 && j == 0) //bottom-left corner
+        if (i == size - 1 && j == 0) // bottom-left corner
         {
             uncover(i - 1, j);
             uncover(i - 1, j + 1);
@@ -516,14 +637,14 @@ public class MikeSweeper
             }
             return;
         }
-        if (i == size - 1 && j == size - 1) //bottom-right corner
+        if (i == size - 1 && j == size - 1) // bottom-right corner
         {
             uncover(i - 1, j - 1);
             uncover(i - 1, j);
             uncover(i, j - 1);
             if (board[i - 1][j - 1] == 0)
             {
-                revealZeros(i - 1, j -1);
+                revealZeros(i - 1, j - 1);
             }
             else if (board[i - 1][j] == 0)
             {
@@ -531,18 +652,19 @@ public class MikeSweeper
             }
             else if (board[i][j - 1] == 0)
             {
-                revealZeros(i, j -1);
+                revealZeros(i, j - 1);
             }
             return;
         }
         return;
     }
+
     /**
      * helper method for revealZero, for side buttons.
      */
     public void sideRevealZeros(int i, int j)
     {
-        if (i == 0 && j >= 1 && j <= size - 2) //top row
+        if (i == 0 && j >= 1 && j <= size - 2) // top row
         {
             uncover(i, j - 1);
             uncover(i, j + 1);
@@ -551,7 +673,7 @@ public class MikeSweeper
             uncover(i + 1, j + 1);
             if (board[i][j - 1] == 0)
             {
-                revealZeros(i, j -1);
+                revealZeros(i, j - 1);
             }
             else if (board[i][j + 1] == 0)
             {
@@ -571,7 +693,7 @@ public class MikeSweeper
             }
             return;
         }
-        if (i == size - 1 && j >= 1 && j <= size - 2) //bottom row
+        if (i == size - 1 && j >= 1 && j <= size - 2) // bottom row
         {
             uncover(i - 1, j - 1);
             uncover(i - 1, j);
@@ -580,7 +702,7 @@ public class MikeSweeper
             uncover(i, j + 1);
             if (board[i - 1][j - 1] == 0)
             {
-                revealZeros(i - 1, j -1);
+                revealZeros(i - 1, j - 1);
             }
             else if (board[i - 1][j] == 0)
             {
@@ -592,7 +714,7 @@ public class MikeSweeper
             }
             else if (board[i][j - 1] == 0)
             {
-                revealZeros(i, j -1);
+                revealZeros(i, j - 1);
             }
             else if (board[i][j + 1] == 0)
             {
@@ -600,7 +722,7 @@ public class MikeSweeper
             }
             return;
         }
-        if (i >= 1 && i <= size - 2 && j == 0) //left side
+        if (i >= 1 && i <= size - 2 && j == 0) // left side
         {
             uncover(i - 1, j);
             uncover(i - 1, j + 1);
@@ -629,7 +751,7 @@ public class MikeSweeper
             }
             return;
         }
-        if (i >= 1 && i <= size - 2 && j == size - 1) //right side
+        if (i >= 1 && i <= size - 2 && j == size - 1) // right side
         {
             uncover(i - 1, j - 1);
             uncover(i - 1, j);
@@ -638,7 +760,7 @@ public class MikeSweeper
             uncover(i + 1, j);
             if (board[i - 1][j - 1] == 0)
             {
-                revealZeros(i - 1, j -1);
+                revealZeros(i - 1, j - 1);
             }
             else if (board[i - 1][j] == 0)
             {
@@ -646,7 +768,7 @@ public class MikeSweeper
             }
             else if (board[i][j - 1] == 0)
             {
-                revealZeros(i, j -1);
+                revealZeros(i, j - 1);
             }
             else if (board[i + 1][j - 1] == 0)
             {
@@ -660,7 +782,7 @@ public class MikeSweeper
         }
         return;
     }
-    
+
     /**
      * helper method for revealZero, for center buttons.
      */
@@ -678,11 +800,11 @@ public class MikeSweeper
             uncover(i + 1, j + 1);
             if (board[i - 1][j - 1] == 0)
             {
-                revealZeros(i - 1, j -1);
+                revealZeros(i - 1, j - 1);
             }
             else if (board[i][j - 1] == 0)
             {
-                revealZeros(i, j -1);
+                revealZeros(i, j - 1);
             }
             else if (board[i + 1][j - 1] == 0)
             {
@@ -712,6 +834,7 @@ public class MikeSweeper
         }
         return;
     }
+
     /**
      * prints the board un-hidden.
      */
@@ -723,14 +846,14 @@ public class MikeSweeper
             for (int j = 0; j < size; j++)
             {
                 String temp = board[i][j] + "";
-                
+
                 str += String.format("%3s", temp);
             }
             str += "\n";
         }
         return str;
     }
-    
+
     public void clicked(int i, int j)
     {
         numMoves++;
@@ -738,84 +861,103 @@ public class MikeSweeper
         {
             fillMines(size, i, j);
         }
-        if(gameOver || gameWon) return;
+        if (gameOver || gameWon)
+            return;
         int val = board[i][j];
-        if(val == 0) {
+        if (val == 0)
+        {
             revealZeros(i, j);
-        } else if(val == 10) {
+        }
+        else if (val == 10)
+        {
             revealMines();
             gameOver = true;
-        } else {
+        }
+        else
+        {
             uncover(i, j);
         }
         gameWon = gameWon();
     }
-    
+
     private void revealMines()
     {
-        for(int i = 0; i < board.length; i++) {
-            for(int j = 0; j < board.length; j++) {
-                if(board[i][j] == 10) {
+        for (int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board.length; j++)
+            {
+                if (board[i][j] == 10)
+                {
                     uncover(i, j);
                 }
             }
         }
-            
+
     }
-    
+
     public boolean getGameOver()
     {
-    	return gameOver;
+        return gameOver;
     }
 
     public boolean getGameWon()
     {
-    	return gameWon;
+        return gameWon;
     }
-    
+
     public void setGameWon(boolean gameWon)
     {
-    	this.gameWon = gameWon;
+        this.gameWon = gameWon;
     }
-    
+
     public static void main(String[] args)
     {
         MikeSweeper test = new MikeSweeper(Difficulty.EASY, 0, 0);
         System.out.println(test);
     }
-    
-	public void setGameOver(boolean gameOver) {
-		this.gameOver = gameOver;
-	}
-	
-	public void coverAll() {
-		for(int i = 0; i < coveredBoard.length; i++) {
-			for(int j = 0; j < coveredBoard[i].length; j++) {
-				coveredBoard[i][j] = true;
-			}
-		}
-		
-	}
-	public void unflagAll() {
-		for(int i = 0; i < flagged.length; i++) {
-			for(int j = 0; j < flagged[i].length; j++) {
-				flagged[i][j] = false;
-			}
-		}
-		
-	}
-	public boolean gameWon() {
-	    int everythingUncovered = 0;
-	    for (int i = 0; i < size; i++)
-	    {
-	        for (int j = 0; j < size; j++)
-	        {
-	            if(board[i][j] != 10 && !coveredBoard[i][j])
-	            {
-	                everythingUncovered++;
-	            }
-	        }
-	    }
-	    return (everythingUncovered == ((size * size) - maxMines));
-	}
+
+    public void setGameOver(boolean gameOver)
+    {
+        this.gameOver = gameOver;
+    }
+
+    public void coverAll()
+    {
+        for (int i = 0; i < coveredBoard.length; i++)
+        {
+            for (int j = 0; j < coveredBoard[i].length; j++)
+            {
+                coveredBoard[i][j] = true;
+            }
+        }
+
+    }
+
+    public void unflagAll()
+    {
+        for (int i = 0; i < flagged.length; i++)
+        {
+            for (int j = 0; j < flagged[i].length; j++)
+            {
+                flagged[i][j] = false;
+            }
+        }
+
+    }
+
+    public boolean gameWon()
+    {
+        int everythingUncovered = 0;
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                if (board[i][j] != 10 && !coveredBoard[i][j])
+                {
+                    everythingUncovered++;
+                }
+            }
+        }
+        return (everythingUncovered == ((size * size) - maxMines));
+    }
 }
