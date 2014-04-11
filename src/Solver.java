@@ -4,19 +4,23 @@ import java.awt.EventQueue;
 public class Solver {
 
 	private MikeSweeperGui game;
+		
+	public Solver(MikeSweeperGui game)
+	{
+		this.game = game;
+	}
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MikeSweeperGui window = new MikeSweeperGui();
-					window.frmMikesweeper.setVisible(true);
-					window.dialog.setVisible(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void solve()
+	{
+		MikeSweeper ms = game.getModel();
+		
+		ms.clicked(1, 3);
+		ms.clicked(0, 0);
+		game.updateView();
+		
+		int[] bestMove = ms.testMatrix();
+		ms.clicked(bestMove[0], bestMove[1]);
+		game.updateView();
 	}
 
 }

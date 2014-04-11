@@ -57,9 +57,7 @@ public class MikeSweeperGui implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MikeSweeperGui window = new MikeSweeperGui();
-					window.frmMikesweeper.setVisible(true);
-					window.dialog.setVisible(false);
+					MikeSweeperGui window = new MikeSweeperGui();					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -70,8 +68,15 @@ public class MikeSweeperGui implements ActionListener {
 	/**
 	 * Create the application.
 	 */
-	public MikeSweeperGui() {
-		initialize();		
+	public MikeSweeperGui() {		
+		initialize();	
+		frmMikesweeper.setVisible(true);
+		dialog.setVisible(false);
+	}
+	
+	public MikeSweeper getModel()
+	{
+		return model;
 	}
 	
 	public void updateView()
@@ -189,6 +194,9 @@ public class MikeSweeperGui implements ActionListener {
 		dialog.setLocationRelativeTo(frmMikesweeper);	
 		
 		System.out.println(model);
+		
+		Solver solver = new Solver(this);
+		solver.solve();
 	}
 
 	private void createButtonsArray()

@@ -55,9 +55,10 @@ public class MikeSweeper
             {
                 if (!coveredBoard[i][j])
                 {
-                    bb[k][1] = board[i][j];
+                    bb[k][0] = board[i][j];
                     k++;
-                    temp = createRowNA(size, i, j);
+                    temp = createRowInA(size, i, j);
+                    //AA[ii] = createRowInA(size, i, j);
                     for (int jj = 0; jj < size * size; jj++)
                     {
                         AA[ii][jj] = temp[jj];
@@ -66,22 +67,38 @@ public class MikeSweeper
                 }
             }
         }
-        bb[unCovered][1] = maxMines;
+        
+        // Append rows to A and b because of total probability
+        bb[unCovered][0] = maxMines;
         for (int i = 0; i < size * size; i++)
         {
             AA[unCovered][i] = 1;
         }
+        
         Matrix b = new Matrix(bb);
+        
+        System.out.println("b: ");
+        for(Double d : b.getColumnPackedCopy()) System.out.println(d);
+        
         Matrix A = new Matrix(AA);
-
+        
+        System.out.println("A: ");
+        for(double[] dd : A.getArray()) {
+        	for(Double d : dd) {
+        		System.out.print(d + " ");
+        	}
+        	System.out.println();
+        }
+        
         Matrix x = A.solve(b);
+
         double lowest = Double.POSITIVE_INFINITY;
         int indexLow = -1;
         for (int i = 0; i < size * size; i++)
         {
-            if (x.get(i, 1) < lowest)
+            if (x.get(i, 0) < lowest)
             {
-                lowest = x.get(i,  1);
+                lowest = x.get(i,  0);
                 indexLow = i;
             }
         }
@@ -92,10 +109,9 @@ public class MikeSweeper
     /**
      * createRowNA
      */
-    public double[] createRowNA(int size, int i, int j)
+    public double[] createRowInA(int size, int i, int j)
     {
         double[] temp = new double[size * size];
-        int k = 0;
         for (int ii = i - 1; ii <= i + 1; ii++)
         {
             for (int jj = j - 1; jj <= j + 1; jj++)
@@ -106,8 +122,7 @@ public class MikeSweeper
                     {
                         if (coveredBoard[ii][jj])
                         {
-                            k = jj + (ii * size);
-                            temp[k] = 1;
+                            temp[jj + (ii * size)] = 1;
                         }
                     }
                 }
