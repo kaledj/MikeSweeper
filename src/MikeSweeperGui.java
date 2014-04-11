@@ -49,6 +49,7 @@ public class MikeSweeperGui implements ActionListener {
 	private boolean counting;
 	private Difficulty diff = Difficulty.EASY;
 	private JLabel lblFlags;
+	private JMenuItem mntmAiSolve;
 
 	/**
 	 * Launch the application.
@@ -177,6 +178,9 @@ public class MikeSweeperGui implements ActionListener {
 		mntmReset = new JMenuItem("Reset");
 		mntmReset.setName("reset");
 		mntmReset.addActionListener(this);
+		
+		mntmAiSolve = new JMenuItem("AI solve");
+		mnFile.add(mntmAiSolve);
 		mnFile.add(mntmReset);
 		
 		mntmQuit = new JMenuItem("Quit");

@@ -182,7 +182,7 @@ public class MikeSweeper
 
             case HARD:
                 setSize(20);
-                setMines(99);
+                setMines(60);
                 break;
 
             case CUSTOM:
