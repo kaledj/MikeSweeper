@@ -199,8 +199,8 @@ public class MikeSweeperGui implements ActionListener {
 		
 		System.out.println(model);
 		
-		Solver solver = new Solver(this);
-		solver.solve();
+		/*Solver solver = new Solver(this);
+		solver.solve();*/
 	}
 
 	private void createButtonsArray()
@@ -223,16 +223,21 @@ public class MikeSweeperGui implements ActionListener {
     private void createIconsArray()
     {
         for(int i = 0; i < numberIcons.length; i++) {
-            numberIcons[i] = new ImageIcon("resources/" + i + ".png");
+            
             if (diff == diff.HARD)
             {
+            	numberIcons[i] = new ImageIcon("resources/" + i + ".png");
             	Image scaleImage = ((ImageIcon) numberIcons[i]).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
             	numberIcons[i] = new ImageIcon(scaleImage);
             	
             	Image scaleImageTwo = ((ImageIcon) icon).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
             	icon = new ImageIcon(scaleImageTwo);
             }
-            
+            else 
+            {
+            	numberIcons[i] = new ImageIcon("resources/" + i + ".png");
+            	icon = new ImageIcon("icon.png");
+            }
         }
     }
 
