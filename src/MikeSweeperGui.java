@@ -145,7 +145,7 @@ public class MikeSweeperGui implements ActionListener {
 		createIconsArray();
 
 		frmMikesweeper.setTitle("MikeSweeper");
-		ImageIcon img = new ImageIcon("resources/10x10.png");
+		ImageIcon img = new ImageIcon("resources/10x10ex.png");
 		frmMikesweeper.setIconImage(img.getImage());
 		if (diff == diff.EASY)
 		{
@@ -178,20 +178,23 @@ public class MikeSweeperGui implements ActionListener {
 		mntmReset = new JMenuItem("Reset");
 		mntmReset.setName("reset");
 		mntmReset.addActionListener(this);
+		mnFile.add(mntmReset);
 		
 		mntmAiSolve = new JMenuItem("AI solve");
+		mntmAiSolve.addActionListener(this);
+		mntmAiSolve.setName("ai");
 		mnFile.add(mntmAiSolve);
-		mnFile.add(mntmReset);
+		
 		
 		mntmQuit = new JMenuItem("Quit");
 		mntmQuit.setName("quit");
 		mntmQuit.addActionListener(this);
 		mnFile.add(mntmQuit);
 		
-		clock = new JLabel(String.format("%10d",  0));
+		clock = new JLabel(String.format("%s %-5d","Time: ", timeElapsed));
 		menuBar.add(clock);
 		
-		lblFlags = new JLabel("Flags:");
+		lblFlags = new JLabel("  Flags: " + flags);
 		menuBar.add(lblFlags);
 
 		frmMikesweeper.setVisible(true);
@@ -199,8 +202,7 @@ public class MikeSweeperGui implements ActionListener {
 		
 		System.out.println(model);
 		
-		/*Solver solver = new Solver(this);
-		solver.solve();*/
+		
 	}
 
 	private void createButtonsArray()
@@ -236,7 +238,7 @@ public class MikeSweeperGui implements ActionListener {
             else 
             {
             	numberIcons[i] = new ImageIcon("resources/" + i + ".png");
-            	icon = new ImageIcon("icon.png");
+            	
             }
         }
     }
@@ -255,6 +257,11 @@ public class MikeSweeperGui implements ActionListener {
     		{
     			newGame();
     		}
+    		else if (((JMenuItem) o).getName() == "ai")
+            {
+    		    Solver solver = new Solver(this);
+    	        solver.solve();
+            }
     		else if (((JMenuItem) o).getName() == "quit")
     		{
     			System.exit(0);
@@ -314,18 +321,18 @@ public class MikeSweeperGui implements ActionListener {
     	{
     		if (model.getGameOver())
     		{
-    			clock.setText(String.format("%10d %s", timeElapsed, "Game Over!"));
+    			clock.setText(String.format("%s %-5d %s","Time: ", timeElapsed, "Game Over!"));
     			dialog.setVisible(true);
     		}
     		else if (model.getGameWon())
     		{
-    			clock.setText(String.format("%10d %s", timeElapsed, "You win!"));
+    			clock.setText(String.format("%s %-5d %s","Time: ", timeElapsed, "You win!"));
     			dialog.setVisible(true);
     		}
     		else
     		{
     			timeElapsed++;
-    			clock.setText(String.format("%10d", timeElapsed));
+    			clock.setText(String.format("%s %-5d","Time: ", timeElapsed));
     		}    		
     	}
         updateView();
@@ -341,7 +348,7 @@ public class MikeSweeperGui implements ActionListener {
 		flags = 0;
 		counting = false;
 		timer.stop();
-		clock.setText(String.format("%10d", timeElapsed));
+		clock.setText(String.format("%s %-5d","Time: ", timeElapsed));
 		updateView();
 	}
 	
@@ -424,6 +431,7 @@ public class MikeSweeperGui implements ActionListener {
                     	{
                     		button.setIcon(flag);
                     		flags++;
+                    		lblFlags.setText("  Flags: " + flags);
                     		model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
                     	}                    	
                     }                    
