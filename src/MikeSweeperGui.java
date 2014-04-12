@@ -238,7 +238,7 @@ public class MikeSweeperGui implements ActionListener {
             else 
             {
             	numberIcons[i] = new ImageIcon("resources/" + i + ".png");
-            	
+            	icon = new ImageIcon("resources/10x10.png");
             }
         }
     }
