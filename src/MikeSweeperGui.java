@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.InetAddress;
 
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
@@ -19,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -33,6 +36,7 @@ public class MikeSweeperGui implements ActionListener {
 	Icon[] numberIcons = new ImageIcon[9];
 	
 	private MikeSweeper model;
+	private MikeSweeperScore score;
 	private JDialog dialog;
 	private JFrame frmMikesweeper;
 	private JMenuItem mntmNewGame;
@@ -43,6 +47,7 @@ public class MikeSweeperGui implements ActionListener {
 	private JMenuItem mntmReset;
 	private JMenu mnFile;
 	private Timer timer;
+	private JTextField name;
 	
 	private int timeElapsed;
 	private int flags;
@@ -115,13 +120,16 @@ public class MikeSweeperGui implements ActionListener {
 	private void initialize() {
 		// Makes board, and sets buttons to things and stuff.
 		model = new MikeSweeper(diff,1,3);
+		score = new MikeSweeperScore();
 		counting = false;
 		flags = 0;
 		
         //New game dialog box
 		dialog = new JDialog(frmMikesweeper, "Play again?");
-		dialog.setSize(new Dimension(75, 75));
+		//dialog.setSize(new Dimension(75, 150));
+		dialog.setPreferredSize(new Dimension(350, 100));
 		dialog.getContentPane().setLayout(new FlowLayout());
+		dialog.setResizable(false);
 		JLabel playLabel = new JLabel("Choose difficulty:");
 		dialog.getContentPane().add(playLabel);
 		JButton easy = new JButton("Easy");
@@ -137,6 +145,21 @@ public class MikeSweeperGui implements ActionListener {
 		med.addActionListener(this);
 		dialog.getContentPane().add(hard);
 		hard.addActionListener(this);
+		
+		JLabel lblName = new JLabel("Highscore name: ");
+		name = new JTextField("", 4);
+		name.setName("name");
+		name.setEditable(false);
+		dialog.getContentPane().add(lblName);
+		dialog.getContentPane().add(name);
+		
+		JLabel lblScore = new JLabel("Score: ");
+		JTextField score = new JTextField("", 4);
+		score.setName("score");
+		score.setEditable(false);
+		dialog.getContentPane().add(lblScore);
+		dialog.getContentPane().add(score);
+		
 		dialog.validate();
 		dialog.pack();
 		
@@ -327,6 +350,13 @@ public class MikeSweeperGui implements ActionListener {
     		else if (model.getGameWon())
     		{
     			clock.setText(String.format("%s %-5d %s","Time: ", timeElapsed, "You win!"));
+    			try {
+    				name.setEditable(true);
+					score.highScore(timeElapsed, name.getText());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
     			dialog.setVisible(true);
     		}
     		else
