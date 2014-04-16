@@ -48,10 +48,13 @@ public class MikeSweeperGui implements ActionListener {
 	private JMenu mnFile;
 	private Timer timer;
 	private JTextField name;
+	private JTextField scoreTime;
+	private JButton setScore;
 	
 	private int timeElapsed;
 	private int flags;
 	private boolean counting;
+	private boolean alreadyWon = false;
 	private Difficulty diff = Difficulty.EASY;
 	private JLabel lblFlags;
 	private JMenuItem mntmAiSolve;
@@ -154,11 +157,16 @@ public class MikeSweeperGui implements ActionListener {
 		dialog.getContentPane().add(name);
 		
 		JLabel lblScore = new JLabel("Score: ");
-		JTextField score = new JTextField("", 4);
-		score.setName("score");
-		score.setEditable(false);
+		scoreTime = new JTextField("", 4);
+		scoreTime.setName("score");
+		scoreTime.setEditable(false);
 		dialog.getContentPane().add(lblScore);
-		dialog.getContentPane().add(score);
+		dialog.getContentPane().add(scoreTime);
+		setScore = new JButton("Set");
+		setScore.setName("set");
+		dialog.getContentPane().add(setScore);
+		setScore.addActionListener(this);
+		setScore.setVisible(false);
 		
 		dialog.validate();
 		dialog.pack();
@@ -332,6 +340,20 @@ public class MikeSweeperGui implements ActionListener {
     			initialize();
     			updateView();
     		}
+    		else if (((JButton) o).getName() == "set")
+            {
+    		    try {
+                    
+                    score.highScore(timeElapsed, name.getText(), diff);
+                    setScore.setVisible(false);
+                    name.setEditable(true);
+                    alreadyWon = true;
+                    
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
     		else
     		{
     			int[] clicked = getButtonClicked((JButton)o);
@@ -350,14 +372,13 @@ public class MikeSweeperGui implements ActionListener {
     		else if (model.getGameWon())
     		{
     			clock.setText(String.format("%s %-5d %s","Time: ", timeElapsed, "You win!"));
-    			try {
-    				name.setEditable(true);
-					score.highScore(timeElapsed, name.getText());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+    			scoreTime.setText("" + timeElapsed);
     			dialog.setVisible(true);
+    			if (!alreadyWon)
+    			{
+    			    name.setEditable(true);
+    			    setScore.setVisible(true);
+    			}
     		}
     		else
     		{

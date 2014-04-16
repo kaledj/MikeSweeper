@@ -11,10 +11,10 @@ public class MikeSweeperScore {
 		
 	}
 	
-	public void highScore(int time, String name) throws IOException
+	public void highScore(int time, String name, Difficulty diff) throws IOException
 	{
 		FileWriter writer = new FileWriter("resources/scores.txt", true);
-		writer.write("Name: " + name + " Score: " + time);
+		writer.write(name + ":" + time + ":" + diff + "\n");
 		writer.close();
 	}
 }
