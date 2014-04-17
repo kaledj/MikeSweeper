@@ -11,7 +11,6 @@ public class MikeSweeperScore {
 
 	public static void main(String[] arg) {
 		MikeSweeperScore mss = new MikeSweeperScore();
-		mss.getHighScores();
 	}
 
 	public void highScore(int time, String name, Difficulty diff)
@@ -97,17 +96,36 @@ public class MikeSweeperScore {
 		return false;
 	}
 
-	public void getHighScores() {
-		String thisLine;
-		String scores = "";
+	public String getHighScores(Difficulty diff) {
+		String oldName = "";
+		int oldScore = 0;
+		String newData = "";
+		String files = "";
+		if (diff == diff.EASY)
+			{
+				files = "easyScores";
+			}
+		if (diff == diff.MEDIUM)
+		{
+			files = "medScores";
+		}
+		if (diff == diff.HARD)
+		{
+			files = "hardScores";
+		}
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(
-					"resources/easyScores.txt"));
-			while ((thisLine = br.readLine()) != null) {
-				scores += thisLine;
+					"resources/"  + files + ".txt"));
+			while ((oldName = br.readLine()) != null) {
+				oldScore = Integer.parseInt(br.readLine());
+				newData += oldName + "\r\n" + oldScore + "\r\n";
 			}
-		} catch (IOException e) {
+			return newData;
+		}
+		catch (IOException e) {
 			System.err.println("Error: " + e);
 		}
+		return newData;
 	}
+
 }

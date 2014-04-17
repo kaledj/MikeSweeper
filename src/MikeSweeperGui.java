@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.JTextPane;
 
 public class MikeSweeperGui implements ActionListener {
 	
@@ -130,7 +131,7 @@ public class MikeSweeperGui implements ActionListener {
         //New game dialog box
 		dialog = new JDialog(frmMikesweeper, "Play again?");
 		//dialog.setSize(new Dimension(75, 150));
-		dialog.setPreferredSize(new Dimension(350, 100));
+		dialog.setPreferredSize(new Dimension(350, 300));
 		dialog.getContentPane().setLayout(new FlowLayout());
 		dialog.setResizable(false);
 		JLabel playLabel = new JLabel("Choose difficulty:");
@@ -165,6 +166,11 @@ public class MikeSweeperGui implements ActionListener {
 		setScore = new JButton("Set");
 		setScore.setName("set");
 		dialog.getContentPane().add(setScore);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setText("High Scores \n" + score.getHighScores(diff));
+		textPane.setBounds(0, 0, 40, 60);
+		dialog.getContentPane().add(textPane);
 		setScore.addActionListener(this);
 		setScore.setVisible(false);
 		
