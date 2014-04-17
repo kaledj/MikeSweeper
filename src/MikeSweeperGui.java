@@ -296,8 +296,9 @@ public class MikeSweeperGui implements ActionListener {
     		}
     		else if (((JMenuItem) o).getName() == "ai")
             {
-    		    Solver solver = new Solver(this);
+    		    Solver solver = new Solver(model);
     	        solver.solve();
+    	        updateView();
             }
     		else if (((JMenuItem) o).getName() == "quit")
     		{
@@ -367,6 +368,7 @@ public class MikeSweeperGui implements ActionListener {
         			model.clicked(clicked[0], clicked[1]);
     			}
     		}
+    		updateView();
     	}
     	else if (o instanceof Timer) 
     	{
@@ -392,7 +394,6 @@ public class MikeSweeperGui implements ActionListener {
     			clock.setText(String.format("%s %-5d","Time: ", timeElapsed));
     		}    		
     	}
-        updateView();
 	}
 
 	private void reset()
