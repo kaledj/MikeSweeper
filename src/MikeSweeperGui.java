@@ -61,6 +61,7 @@ public class MikeSweeperGui implements ActionListener {
 	private int flags;
 	private boolean counting;
 	private boolean alreadyWon = false;
+	private boolean gameInitialized = false;
 	private Difficulty diff = Difficulty.EASY;
 	private JLabel lblFlags;
 	private JMenuItem mntmAiSolve;
