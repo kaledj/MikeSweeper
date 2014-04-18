@@ -162,7 +162,7 @@ public class MikeSweeperGui implements ActionListener {
 		name.setName("name");
 		
 		pnlHighScore = new JPanel();
-		pnlHighScore.setBounds(0, 0, 100, 30);
+		pnlHighScore.setBounds(0, 0, 50, 30);
 		lblScore = new JLabel("Score: ");
 		scoreTime = new JTextField("", 4);
 		scoreTime.setName("score");
@@ -377,6 +377,8 @@ public class MikeSweeperGui implements ActionListener {
                     score.highScore(timeElapsed, name.getText(), diff);
                     pnlHighScore.setVisible(false);
                     dialog.setPreferredSize(new Dimension(350, 100));
+                    dialog.validate();
+            		dialog.pack();
                     alreadyWon = true;
                     
                 } catch (IOException e1) {
