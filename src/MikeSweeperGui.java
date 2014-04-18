@@ -275,11 +275,27 @@ public class MikeSweeperGui implements ActionListener {
             	
             	Image scaleImageTwo = ((ImageIcon) icon).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
             	icon = new ImageIcon(scaleImageTwo);
+            	
+            	Image scaleImageThree = ((ImageIcon) flag).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
+                flag = new ImageIcon(scaleImageThree);
+            }
+            else if (diff == diff.MEDIUM)
+            {
+                numberIcons[i] = new ImageIcon("resources/" + i + ".png");
+                Image scaleImage = ((ImageIcon) numberIcons[i]).getImage().getScaledInstance(35, 35,Image.SCALE_SMOOTH);
+                numberIcons[i] = new ImageIcon(scaleImage);
+                
+                Image scaleImageTwo = ((ImageIcon) icon).getImage().getScaledInstance(35, 35,Image.SCALE_SMOOTH);
+                icon = new ImageIcon(scaleImageTwo);
+                
+                Image scaleImageThree = ((ImageIcon) flag).getImage().getScaledInstance(35, 35,Image.SCALE_SMOOTH);
+                flag = new ImageIcon(scaleImageThree);
             }
             else 
             {
             	numberIcons[i] = new ImageIcon("resources/" + i + ".png");
             	icon = new ImageIcon("resources/10x10.png");
+            	flag = new ImageIcon("resources/flag.png");
             }
         }
     }
