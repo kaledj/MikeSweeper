@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -53,6 +55,7 @@ public class MikeSweeperGui implements ActionListener {
 	private JButton setScore;
 	private JPanel pnlHighScore;
 	private JLabel lblScore;
+	private JTextPane textPane;
 	
 	private int timeElapsed;
 	private int flags;
@@ -152,9 +155,13 @@ public class MikeSweeperGui implements ActionListener {
 		dialog.getContentPane().add(hard);
 		hard.addActionListener(this);
 		
-		JLabel textPane = new JLabel();
-        textPane.setText("High Scores \n" + score.getHighScores(diff));
-        textPane.setBounds(0, 0, 40, 60);
+		textPane = new JTextPane();
+        textPane.setText("----High Scores----\n" + score.getHighScores(diff));
+        textPane.setEditable(false);
+        textPane.setOpaque(false);
+        textPane.setBorder(BorderFactory.createEmptyBorder());
+        textPane.setBounds(0, 0, 50, 40);
+        
         dialog.getContentPane().add(textPane);
 		
 		JLabel lblName = new JLabel("Highscore name: ");
@@ -162,7 +169,6 @@ public class MikeSweeperGui implements ActionListener {
 		name.setName("name");
 		
 		pnlHighScore = new JPanel();
-		pnlHighScore.setBounds(0, 0, 50, 30);
 		lblScore = new JLabel("Score: ");
 		scoreTime = new JTextField("", 4);
 		scoreTime.setName("score");
@@ -375,8 +381,9 @@ public class MikeSweeperGui implements ActionListener {
     		    try {
                     
                     score.highScore(timeElapsed, name.getText(), diff);
+                    textPane.setText("----High Scores----\n" + score.getHighScores(diff));
                     pnlHighScore.setVisible(false);
-                    dialog.setPreferredSize(new Dimension(350, 100));
+                    dialog.setPreferredSize(new Dimension(350, 130));
                     dialog.validate();
             		dialog.pack();
                     alreadyWon = true;
@@ -410,7 +417,9 @@ public class MikeSweeperGui implements ActionListener {
     			timer.stop();
     			if (!alreadyWon && score.isHighScore(timeElapsed, diff))
     			{
-    			    dialog.setPreferredSize(new Dimension(350, 130));
+    			    dialog.setPreferredSize(new Dimension(350, 185));
+    			    dialog.validate();
+    				dialog.pack();
     			    pnlHighScore.setVisible(true);
     			}
     		}

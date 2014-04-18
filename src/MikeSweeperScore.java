@@ -193,7 +193,7 @@ public class MikeSweeperScore
             while ((oldName = br.readLine()) != null)
             {
                 oldScore = Integer.parseInt(br.readLine());
-                newData += oldName + " " + oldScore + " ";
+                newData += oldName + "\t" + oldScore + "\r\n";
             }
             return newData;
         }
