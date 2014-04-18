@@ -1,6 +1,6 @@
 Scott
-32
+300
 Scott
-34
+400
 Scott
-40
+500

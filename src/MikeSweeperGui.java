@@ -51,6 +51,8 @@ public class MikeSweeperGui implements ActionListener {
 	private JTextField name;
 	private JTextField scoreTime;
 	private JButton setScore;
+	private JPanel pnlHighScore;
+	private JLabel lblScore;
 	
 	private int timeElapsed;
 	private int flags;
@@ -131,7 +133,7 @@ public class MikeSweeperGui implements ActionListener {
         //New game dialog box
 		dialog = new JDialog(frmMikesweeper, "Play again?");
 		//dialog.setSize(new Dimension(75, 150));
-		dialog.setPreferredSize(new Dimension(350, 300));
+		dialog.setPreferredSize(new Dimension(350, 130));
 		dialog.getContentPane().setLayout(new FlowLayout());
 		dialog.setResizable(false);
 		JLabel playLabel = new JLabel("Choose difficulty:");
@@ -150,29 +152,31 @@ public class MikeSweeperGui implements ActionListener {
 		dialog.getContentPane().add(hard);
 		hard.addActionListener(this);
 		
+		JLabel textPane = new JLabel();
+        textPane.setText("High Scores \n" + score.getHighScores(diff));
+        textPane.setBounds(0, 0, 40, 60);
+        dialog.getContentPane().add(textPane);
+		
 		JLabel lblName = new JLabel("Highscore name: ");
 		name = new JTextField("", 4);
 		name.setName("name");
-		name.setEditable(false);
-		dialog.getContentPane().add(lblName);
-		dialog.getContentPane().add(name);
 		
-		JLabel lblScore = new JLabel("Score: ");
+		pnlHighScore = new JPanel();
+		pnlHighScore.setBounds(0, 0, 100, 30);
+		lblScore = new JLabel("Score: ");
 		scoreTime = new JTextField("", 4);
 		scoreTime.setName("score");
 		scoreTime.setEditable(false);
-		dialog.getContentPane().add(lblScore);
-		dialog.getContentPane().add(scoreTime);
 		setScore = new JButton("Set");
 		setScore.setName("set");
-		dialog.getContentPane().add(setScore);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setText("High Scores \n" + score.getHighScores(diff));
-		textPane.setBounds(0, 0, 40, 60);
-		dialog.getContentPane().add(textPane);
+		pnlHighScore.add(lblName);
+		pnlHighScore.add(name);
+		pnlHighScore.add(lblScore);
+		pnlHighScore.add(scoreTime);
+		pnlHighScore.add(setScore);
+		pnlHighScore.setVisible(false);
+		dialog.add(pnlHighScore);
 		setScore.addActionListener(this);
-		setScore.setVisible(false);
 		
 		dialog.validate();
 		dialog.pack();
@@ -317,6 +321,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			diff = Difficulty.EASY;
     			frmMikesweeper.setVisible(false);
+    			alreadyWon = false;
     			model.setGameOver(false);
     			timeElapsed = 0;
     			counting = false;
@@ -329,6 +334,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			diff = Difficulty.MEDIUM;
     			frmMikesweeper.setVisible(false);
+    			alreadyWon = false;
     			model.setGameOver(false);
     			timeElapsed = 0;
     			counting = false;
@@ -341,6 +347,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			diff = Difficulty.HARD;
     			frmMikesweeper.setVisible(false);
+    			alreadyWon = false;
     			timeElapsed = 0;
     			counting = false;
     			timer.stop();
@@ -352,8 +359,8 @@ public class MikeSweeperGui implements ActionListener {
     		    try {
                     
                     score.highScore(timeElapsed, name.getText(), diff);
-                    setScore.setVisible(false);
-                    name.setEditable(true);
+                    pnlHighScore.setVisible(false);
+                    dialog.setPreferredSize(new Dimension(350, 100));
                     alreadyWon = true;
                     
                 } catch (IOException e1) {
@@ -382,10 +389,11 @@ public class MikeSweeperGui implements ActionListener {
     			clock.setText(String.format("%s %-5d %s","Time: ", timeElapsed, "You win!"));
     			scoreTime.setText("" + timeElapsed);
     			dialog.setVisible(true);
-    			if (!alreadyWon)
+    			timer.stop();
+    			if (!alreadyWon && score.isHighScore(timeElapsed, diff))
     			{
-    			    name.setEditable(true);
-    			    setScore.setVisible(true);
+    			    dialog.setPreferredSize(new Dimension(350, 130));
+    			    pnlHighScore.setVisible(true);
     			}
     		}
     		else
