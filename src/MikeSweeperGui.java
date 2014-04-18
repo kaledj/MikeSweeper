@@ -491,6 +491,7 @@ public class MikeSweeperGui implements ActionListener {
                     	{
                     		button.setIcon(icon);
                     		flags--;
+                    		lblFlags.setText("  Flags: " + flags);
                     		model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
                     	}
                     	else if (flags < model.getMines())
