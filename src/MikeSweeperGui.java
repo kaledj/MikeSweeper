@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -51,11 +53,15 @@ public class MikeSweeperGui implements ActionListener {
 	private JTextField name;
 	private JTextField scoreTime;
 	private JButton setScore;
+	private JPanel pnlHighScore;
+	private JLabel lblScore;
+	private JTextPane textPane;
 	
 	private int timeElapsed;
 	private int flags;
 	private boolean counting;
 	private boolean alreadyWon = false;
+	private boolean gameInitialized = false;
 	private Difficulty diff = Difficulty.EASY;
 	private JLabel lblFlags;
 	private JMenuItem mntmAiSolve;
@@ -131,7 +137,7 @@ public class MikeSweeperGui implements ActionListener {
         //New game dialog box
 		dialog = new JDialog(frmMikesweeper, "Play again?");
 		//dialog.setSize(new Dimension(75, 150));
-		dialog.setPreferredSize(new Dimension(350, 300));
+		dialog.setPreferredSize(new Dimension(350, 130));
 		dialog.getContentPane().setLayout(new FlowLayout());
 		dialog.setResizable(false);
 		JLabel playLabel = new JLabel("Choose difficulty:");
@@ -150,29 +156,34 @@ public class MikeSweeperGui implements ActionListener {
 		dialog.getContentPane().add(hard);
 		hard.addActionListener(this);
 		
+		textPane = new JTextPane();
+        textPane.setText("----High Scores----\n" + score.getHighScores(diff));
+        textPane.setEditable(false);
+        textPane.setOpaque(false);
+        textPane.setBorder(BorderFactory.createEmptyBorder());
+        textPane.setBounds(0, 0, 50, 40);
+        
+        dialog.getContentPane().add(textPane);
+		
 		JLabel lblName = new JLabel("Highscore name: ");
 		name = new JTextField("", 4);
 		name.setName("name");
-		name.setEditable(false);
-		dialog.getContentPane().add(lblName);
-		dialog.getContentPane().add(name);
 		
-		JLabel lblScore = new JLabel("Score: ");
+		pnlHighScore = new JPanel();
+		lblScore = new JLabel("Score: ");
 		scoreTime = new JTextField("", 4);
 		scoreTime.setName("score");
 		scoreTime.setEditable(false);
-		dialog.getContentPane().add(lblScore);
-		dialog.getContentPane().add(scoreTime);
 		setScore = new JButton("Set");
 		setScore.setName("set");
-		dialog.getContentPane().add(setScore);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setText("High Scores \n" + score.getHighScores(diff));
-		textPane.setBounds(0, 0, 40, 60);
-		dialog.getContentPane().add(textPane);
+		pnlHighScore.add(lblName);
+		pnlHighScore.add(name);
+		pnlHighScore.add(lblScore);
+		pnlHighScore.add(scoreTime);
+		pnlHighScore.add(setScore);
+		pnlHighScore.setVisible(false);
+		dialog.add(pnlHighScore);
 		setScore.addActionListener(this);
-		setScore.setVisible(false);
 		
 		dialog.validate();
 		dialog.pack();
@@ -271,11 +282,27 @@ public class MikeSweeperGui implements ActionListener {
             	
             	Image scaleImageTwo = ((ImageIcon) icon).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
             	icon = new ImageIcon(scaleImageTwo);
+            	
+            	Image scaleImageThree = ((ImageIcon) flag).getImage().getScaledInstance(26, 26,Image.SCALE_SMOOTH);
+                flag = new ImageIcon(scaleImageThree);
+            }
+            else if (diff == diff.MEDIUM)
+            {
+                numberIcons[i] = new ImageIcon("resources/" + i + ".png");
+                Image scaleImage = ((ImageIcon) numberIcons[i]).getImage().getScaledInstance(35, 35,Image.SCALE_SMOOTH);
+                numberIcons[i] = new ImageIcon(scaleImage);
+                
+                Image scaleImageTwo = ((ImageIcon) icon).getImage().getScaledInstance(35, 35,Image.SCALE_SMOOTH);
+                icon = new ImageIcon(scaleImageTwo);
+                
+                Image scaleImageThree = ((ImageIcon) flag).getImage().getScaledInstance(35, 35,Image.SCALE_SMOOTH);
+                flag = new ImageIcon(scaleImageThree);
             }
             else 
             {
             	numberIcons[i] = new ImageIcon("resources/" + i + ".png");
             	icon = new ImageIcon("resources/10x10.png");
+            	flag = new ImageIcon("resources/flag.png");
             }
         }
     }
@@ -317,6 +344,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			diff = Difficulty.EASY;
     			frmMikesweeper.setVisible(false);
+    			alreadyWon = false;
     			model.setGameOver(false);
     			timeElapsed = 0;
     			counting = false;
@@ -329,6 +357,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			diff = Difficulty.MEDIUM;
     			frmMikesweeper.setVisible(false);
+    			alreadyWon = false;
     			model.setGameOver(false);
     			timeElapsed = 0;
     			counting = false;
@@ -341,6 +370,7 @@ public class MikeSweeperGui implements ActionListener {
     			dialog.setVisible(false);
     			diff = Difficulty.HARD;
     			frmMikesweeper.setVisible(false);
+    			alreadyWon = false;
     			timeElapsed = 0;
     			counting = false;
     			timer.stop();
@@ -352,8 +382,11 @@ public class MikeSweeperGui implements ActionListener {
     		    try {
                     
                     score.highScore(timeElapsed, name.getText(), diff);
-                    setScore.setVisible(false);
-                    name.setEditable(true);
+                    textPane.setText("----High Scores----\n" + score.getHighScores(diff));
+                    pnlHighScore.setVisible(false);
+                    dialog.setPreferredSize(new Dimension(350, 130));
+                    dialog.validate();
+            		dialog.pack();
                     alreadyWon = true;
                     
                 } catch (IOException e1) {
@@ -382,10 +415,13 @@ public class MikeSweeperGui implements ActionListener {
     			clock.setText(String.format("%s %-5d %s","Time: ", timeElapsed, "You win!"));
     			scoreTime.setText("" + timeElapsed);
     			dialog.setVisible(true);
-    			if (!alreadyWon)
+    			timer.stop();
+    			if (!alreadyWon && score.isHighScore(timeElapsed, diff))
     			{
-    			    name.setEditable(true);
-    			    setScore.setVisible(true);
+    			    dialog.setPreferredSize(new Dimension(350, 185));
+    			    dialog.validate();
+    				dialog.pack();
+    			    pnlHighScore.setVisible(true);
     			}
     		}
     		else
@@ -483,6 +519,7 @@ public class MikeSweeperGui implements ActionListener {
                     	{
                     		button.setIcon(icon);
                     		flags--;
+                    		lblFlags.setText("  Flags: " + flags);
                     		model.flagged[clicked[0]][clicked[1]] = !model.flagged[clicked[0]][clicked[1]];
                     	}
                     	else if (flags < model.getMines())
