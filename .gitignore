@@ -3,4 +3,5 @@
 .classpath
 .checkstyle
 *.jar
+/resources
 *.txt
